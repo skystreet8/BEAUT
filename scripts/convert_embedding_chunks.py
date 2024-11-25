@@ -5,7 +5,8 @@ import re
 
 
 parser = ArgumentParser()
-parser.add_argument('-f', '--fasta',  type=str, required=True, help='The name of your FASTA file which will be used for naming the embedding file.')
+parser.add_argument('-f', '--fasta',  type=str, required=True,
+                    help='The name of your FASTA file which will be used for naming the embedding file.')
 parser.add_argument('--multiple', action='store_true', default=False, help='Whether converting multiple sequences.')
 args = parser.parse_args()
 if args.multiple:
