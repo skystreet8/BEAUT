@@ -1,0 +1,90 @@
+Pocket-Match(version 2.1) README file:
+Deepesh Nagarajan, 2015, NSC lab.
+Last updated: Monday 30 November 2015 11:34:37 PM IST 
+
+REVISIONS MADE IN VERSION 2.1:
+
+1) Sphinx module has been made disabled. Users complained that the Sphinx module 
+caused memory overflows (segfaults) even when not used, and no one used it anyway.
+2) The MPI version (Step3-PM_MPI.c) is obsolete and has been removed.
+3) A program for the pairwise comparison of 2 datasets has been included
+4) A makefile has been included for easy compilation.
+
+This folder contains the following data (files/executables/directories).
+Dependencies are listed hierarchially:
+
+cabbage-file_maker
+	Sample_cabbage-files
+		1g64.pdb.cabbage ... 4djd.pdb.cabbage
+	Sample_pockets
+	    1g64.pdb ... 4djd.pdb
+	Step0-cabbage.sh
+		Step0-cabbage_core.cpp (exec: Step0-cabbage_core)
+			Step0-cabbage_core.h
+			Step0-PDBclass.h
+		Step0-cabbage_decoder.cpp (exec: Step0-cabbage_decoder)
+		Step0-END-FILE.c (exec: Step0-END-FILE)
+
+README
+README.odt
+README.pdf
+PocketMatch.pdf (note: cabbage files are called alpha-files in the paper).
+
+Step3-PM_typeA.c (exec: Step3-PM_typeA) -> use for comparisons inside a dataset
+Step3-PM_typeB.c (exec: Step3-PM_typeB) -> use for comparisons between 2 datasets
+	Step3-PM.h
+
+Installation:
+All executables should work out-of-the-box. If not, use the makefile:
+	$ make
+
+The end-user workflow is as follows:
+
+1) Make 1 or 2 directories full of pockets in the PDB format.
+    -Make sure to stick to 80 characters per line.
+    -There should be no DNA/RNA molecules in the ATOM coordinates
+	-(Recommended) Make sure that pocket files contain all atoms of pocket residues
+     (backbone and sidechain). Hydrogen atoms are not necessary.
+	-Rigidly stick to the PDB convention. I have not written any 
+     error-detection modules.
+
+2) Enter the 'cabbage-file_maker' directory:
+	$ cd PocketMatch_v1.2/cabbage-file_maker
+	$ ls
+	outfile.cabbage       Step0-cabbage_core.cpp     Step0-cabbage.sh
+	Sample_cabbage-files  Step0-cabbage_core.h       Step0-END-FILE
+	Sample_pockets        Step0-cabbage_decoder      Step0-END-FILE.c
+	Step0-cabbage_core    Step0-cabbage_decoder.cpp  Step0-PDBclass.h
+	
+3) Run the script 'Step0-cabbage.sh' WITHIN this folder. 'Sample_pockets' are
+   provided as an example here, but you will need to use your own pockets.
+    $ bash Step0-cabbage.sh Sample_pockets/
+   An 'outfile.cabbage' should be generated
+
+4) Exit the 'cabbage-file_maker' directory:
+	$cd ..
+
+5) Run pocketmatch. There are two executables: Step3-PM_typeA and Step3-PM_typeB.
+	-for input pockets [A, B, C], Step3-PM_typeA gives the following comparisons:
+     [A-B, A-C, B-C].
+	-for input pockets [A, B, C], [1, 2, 3] Step3-PM_typeB gives the
+     following comparisons: [A-1, A-2, A-3, B-1, B-2, B-3, C-1, C-2, C-3].
+   Run the executables as follows:
+	$ ./Step3-PM_typeA outfile.cabbage
+	$ ./Step3-PM_typeB outfile.cabbage outfile.cabbage
+
+4) The Pocket-match output will appear in a file called 'PocketMatch_score.txt'. 
+   This is the format:
+	input file X:                    input file Y:    
+	3som.pdb________________________ 4djd.pdb________________________ 
+	P-min_OP P-max_OP     A        B        C
+	0.522222 0.509485     3321     3240     1692
+
+   Note: A,B,C are for debugging only, however:
+   P-min_OP = C/A | P-max_OP = C/B
+   Usually, I only consider the P-max score. The P-min score is too 'optimistic',
+   but can be useful if comparing similarly sized pockets.
+
+Online help:
+If you still have unresolved issues, e-mail me at 1337deepesh@gmail.com
+I may or may not reply.
