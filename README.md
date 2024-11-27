@@ -66,9 +66,6 @@ Run `python convert_embedding_chunks.py -f <your FASTA file name> --multiple`.
 
 `test_case.py` will directly print out the predicted probability.
 `test_bulk.py` will save the results as *.pkl files in the `data` folder.
-
-### Pipeline for screening a genome from a single organism
-TBC.
 ## Screening the PRJNA28331 dataset
 ### Step 1
 Run `python test_bulk.py -f PRJNA28331` and `python test_bulk.py -f PRJNA28331 --aug`
@@ -90,11 +87,11 @@ Run `filter_non_enzymes_2.py -m <model>` to filter out non-enzymes
 from previous positive sequences.
 
 The annotation file is the `*.emapper.annotation` file produced by
-EggNOG-mapper. We use `PRJNA28331_base.emapper.annotation.tsv` as the name
+EggNOG-mapper. We use `PRJNA28331_base.emapper.annotation` as the name
 for the annotation file of the sequences predicted by the Base model.
 For the filenames of annotations for the sequences predicted by the Aug model,
 each patch (maximum 100,000 sequences) of annotation is named
-`pt*.emapper.annotations.tsv`. Make sure you rename these files properly
+`pt*.emapper.annotations`. Make sure you rename these files properly
 and place them with the above prediction results under the same folders.
 ### Step 4
 After sending the previous filtered sequences to CLEAN for EC prediction,

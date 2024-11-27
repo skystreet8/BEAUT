@@ -50,7 +50,7 @@ filter_ase_words = {'permease', 'peptidase', 'helicase', 'exonuclease', 'atpases
                     'amylopullulanase'}
 
 if args.model == 'base':
-    df = read_tsv('../data/PRJNA28331_base/PRJNA28331_base.emapper.annotations.tsv')
+    df = read_tsv('../data/PRJNA28331_base/PRJNA28331_base.emapper.annotations')
     organism_df = pd.read_csv('../data/PRJNA28331_base/PRJNA28331_filtered_proteins_positive_results_base.csv')
     headers, seqs = ReformatFastaFile('../data/PRJNA28331_base/PRJNA28331_filtered_proteins_positive_results_base.fasta')
     headers = [re.split(r'\s+', h)[0] for h in headers]
