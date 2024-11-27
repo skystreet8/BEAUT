@@ -9,6 +9,7 @@ parser.add_argument('-m', '--model', required=True, help='Processing Base / Aug 
 args = parser.parse_args()
 if args.model in {'base', 'aug'}:
     df = pd.read_csv(f'../data/PRJNA28331_{args.model}/PRJNA28331_{args.model}_final.csv')
+    df['clean_ec'] = df['clean_ec'].apply(eval)
     organism_set = set()
     for t in df.itertuples():
         olist = eval(t[4])
