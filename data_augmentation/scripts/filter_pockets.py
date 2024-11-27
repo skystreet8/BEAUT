@@ -42,7 +42,7 @@ if __name__ == '__main__':
             id_tgt_dir = f'../data/BA_transformers/high_plddt_pockets_filtered/{organism}'
         func = get_plddt_index_Calpha
     else:
-        pdb_dir = '../data/positive_seq_v2_pdbs'
+        pdb_dir = '../data/positive_seqs_v2_pdbs'
         if args.rescue:
             src_dir = f'../data/pos_v2_structs_high_plddt_pockets_rescue'
             vol_tgt_dir = f'../data/pos_v2_structs_high_plddt_pockets_rescue_vol_filtered'

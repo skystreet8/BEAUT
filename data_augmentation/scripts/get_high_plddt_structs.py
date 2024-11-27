@@ -17,8 +17,8 @@ if organism:
     if not os.path.exists(tgt_dir):
         os.mkdir(tgt_dir)
 else:
-    src_dir = '../data/positive_seq_v2_pdbs'
-    tgt_dir = '../data/positive_seq_v2_pdbs_high_plddt'
+    src_dir = '../data/positive_seqs_v2_pdbs'
+    tgt_dir = '../data/positive_seqs_v2_pdbs_high_plddt'
     if not os.path.exists(tgt_dir):
         os.mkdir(tgt_dir)
 fnames = os.listdir(src_dir)

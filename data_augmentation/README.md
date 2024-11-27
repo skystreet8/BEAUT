@@ -4,23 +4,20 @@ First, `cd ./data_augmentation/scripts`.
 Run `python filter_non_enzymes_1.py`. This would produce 7 `*_filtered.fasta` files and 7 `*_filtered_with_annotations.csv` files.
 The fasta files are sequences contributed by each organism and the CSV files are the corresponding function annotations from EggNOG-mapper.
 ## 2. Filter PDB files by pLDDT
-Run `python get_high_plddt_structs.py` to filter PDB files of the positive samples according to pLDDT.
-
 Run `python get_high_plddt_structs.py -o <organism>` to filter PDB files of the proteins from selected sequences according to
 pLDDT. The available organisms are `B_Ado, B_Xyl, C_Com, C_M62_1, H_Fil, R_Gna, S_Inf`.
 ## 3. Extract pockets using Cavity
 Run `cd ..`.
 
-Place your Cavity program or create a soft link at `./data_augmentation`. 
-Run `bash extract_pockets_high_plddt_pos_structs.sh` and
-`bash extract_pockets_high_plddt_pos_structs_rescue.sh` 
-to extract pockets from high pLDDT structures of positive samples.
-
+Place your Cavity program or create a soft link at `./data_augmentation`.
 Run `bash extract_pockets_high_plddt_BA_transformer_structs.sh <organism>`
 and `bash extract_pockets_high_plddt_BA_transformer_structs_rescue.sh <organism>`
 to extract pockets from high pLDDT structures
 of the proteins from selected organisms.
 The available organisms are the same as above.
+
+As this step requires very long time, precomputed pockets(gzipped files) are provided 
+in the `data/BA_transformers/` folder. 
 ## 4. Filter out the query pockets from all pockets extracted from protein structures of the 7 selected organisms
 Run `python filter_pockets.py -o <organism>` and `python filter_pockets.py -o <organism> -r`.
 This would extract query pockets with volumes of 1000-5500 &#x100C5;^3 and pocket indexes &#x12265; 0.7.
