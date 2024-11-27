@@ -55,8 +55,8 @@ for organism, accession in zip(organisms, accessions):
     logger.info(f'Organism: {organism}')
     logger.info(f'Accession: {accession}')
     logger.info('--------------------------------')
-    annotation_df = read_tsv(f'../data/BA transformers/{accession}.tsv')
-    genome_headers, genome_seqs = ReformatFastaFile(f'../data/BA transformers/{accession}.faa')
+    annotation_df = read_tsv(f'../data/BA_transformers/{accession}.tsv')
+    genome_headers, genome_seqs = ReformatFastaFile(f'../data/BA_transformers/{accession}.faa')
     genome_headers = [re.split(r'\s+', h)[0] for h in genome_headers]
     assert len(set(genome_headers) & set(annotation_df['query'].values.tolist())) == len(annotation_df)
 
@@ -134,5 +134,5 @@ for organism, accession in zip(organisms, accessions):
     del merged_df['length']
     logger.info(f'Number of sequences after filtering and merging unannotated sequences: {len(merged_df)}')
     headers, seqs = merged_df['query'].values.tolist(), merged_df['seq'].values.tolist()
-    SaveFastaFile(f'../data/BA transformers/{organism}_filtered.fasta', headers, seqs)
+    SaveFastaFile(f'../data/BA_transformers/{organism}_filtered.fasta', headers, seqs)
     merged_df.to_csv(f'../data/BA transformers/{organism}_filtered_with_annotations.csv', index=False)
