@@ -135,4 +135,4 @@ for organism, accession in zip(organisms, accessions):
     logger.info(f'Number of sequences after filtering and merging unannotated sequences: {len(merged_df)}')
     headers, seqs = merged_df['query'].values.tolist(), merged_df['seq'].values.tolist()
     SaveFastaFile(f'../data/BA_transformers/{organism}_filtered.fasta', headers, seqs)
-    merged_df.to_csv(f'../data/BA transformers/{organism}_filtered_with_annotations.csv', index=False)
+    merged_df.to_csv(f'../data/BA_transformers/{organism}_filtered_with_annotations.csv', index=False)
