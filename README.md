@@ -34,10 +34,6 @@ is for the Aug model.
 Run `python get_esm_reprs.py -m <model>` to get ESM-2 representations of
 positive & negative sequences for Base & Aug model. `<model>` should be
 either `base` or `aug`.
-
-Precomputed representations were provided in the
-`data` folder as `seq_embeddings_v2.pt` for the Base model and
-`seq_embeddings_v2_substrate_pocket_aug_train_only.pt` for the Aug model.
 ### Step 3
 Run `python Train.py` to train the Base model. Run `python Train.py --aug`
 to train the Aug model.
@@ -47,6 +43,8 @@ We provided the trained models in the `models` folder.
 Run `python eval_metrics.py` or `python eval_metrics.py --aug` to
 calculate the evaluation metrics for the Base or the Aug model, respectively.
 The results will be saved at `../data/`.
+We used the models with the best AUPR values in our study. The models were
+copied and renamed to `ba_pred_DNN_base.pth` and `ba_pred_DNN_aug.pth`.
 ## Model usage
 You can use `test_case.py` to test a single protein sequence.
 
