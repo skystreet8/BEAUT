@@ -1,5 +1,5 @@
 #!/bin/bash
-DIRECTORY="./data/positive_seq_v2_pdbs_high_plddt"
+DIRECTORY="./data/positive_seqs_v2_pdbs_high_plddt"
 for FILE in "$DIRECTORY"/*
 do
   if [ -f "$FILE" ]; then

@@ -47,7 +47,6 @@ if __name__ == '__main__':
     auprs = []
     f1_scores = []
     mccs = []
-    precisions = []
     model = DNNPredictor(1280, [256, 32])
     dataset = SequenceDataset(fold=1, aug=aug)
     test_dataset = Subset(dataset, indices=dataset.test_ids)
@@ -75,7 +74,6 @@ if __name__ == '__main__':
     df = pd.DataFrame(data, columns=['fold'])
     df = df.assign(AUPR=auprs, F1_score=f1_scores, MCC=mccs)
     if aug:
-        df = df.assign(precision=precisions)
         df.to_csv('../data/ba_pred_DNN_aug_eval_metrics.csv', index=False)
     else:
         df.to_csv('../data/ba_pred_DNN_base_eval_metrics.csv', index=False)
