@@ -1,4 +1,3 @@
-import pickle
 import random
 import pandas as pd
 from utils import ReadFastaFile

@@ -4,6 +4,10 @@ from copy import deepcopy
 import xml.parsers.expat
 import time
 from argparse import ArgumentParser
+import logging
+logger = logging.getLogger('process_xgmml_graph')
+logger.addHandler(logging.StreamHandler())
+logger.setLevel(logging.INFO)
 
 
 class XGMMLParserHelper(object):
@@ -136,26 +140,26 @@ if args.model in {'base', 'aug'}:
              'rb')
     )
     end_time = time.monotonic()
-    print(f'{round(end_time - start_time, 0)}s used for loading the graph.')
+    logger.info(f'{round(end_time - start_time, 0)}s used for loading the graph.')
     start_time = time.monotonic()
     graph = graph.to_undirected()
     end_time = time.monotonic()
-    print(f'{round(end_time - start_time, 0)}s used for transforming the graph to undirected.')
+    logger.info(f'{round(end_time - start_time, 0)}s used for transforming the graph to undirected.')
 
-    print(f'There are {graph.number_of_nodes()} nodes in the graph.')
-    print(f'There are {graph.number_of_edges()} egdes in the graph.')
+    logger.info(f'There are {graph.number_of_nodes()} nodes in the graph.')
+    logger.info(f'There are {graph.number_of_edges()} egdes in the graph.')
     n_connected_components = len(list(nx.connected_components(graph)))
-    print(f'There are {n_connected_components} clusters in the graph.')
+    logger.info(f'There are {n_connected_components} clusters in the graph.')
     cluster_sizes = [len(c) for c in nx.connected_components(graph)]
-    print(f'Largest cluster: {max(cluster_sizes)}')
-    print(f'There are {sum([n >= 3 for n in cluster_sizes])} clusters with >= 3 sequences.')
-    print(f'There are {sum([n >= 5 for n in cluster_sizes])} clusters with >= 5 sequences.')
-    print(f'There are {sum([n >= 10 for n in cluster_sizes])} clusters with >= 10 sequences.')
-    print(f'There are {sum([n >= 50 for n in cluster_sizes])} clusters with >= 50 sequences.')
-    print(f'There are {sum([n >= 100 for n in cluster_sizes])} clusters with >= 100 sequences.')
-    print(f'There are {sum([n >= 500 for n in cluster_sizes])} clusters with >= 500 sequences.')
-    print(f'There are {sum([n >= 1000 for n in cluster_sizes])} clusters with >= 1000 sequences.')
-    print(f'There are {sum([n == 1 for n in cluster_sizes])} singletons.')
+    logger.info(f'Largest cluster: {max(cluster_sizes)}')
+    logger.info(f'There are {sum([n >= 3 for n in cluster_sizes])} clusters with >= 3 sequences.')
+    logger.info(f'There are {sum([n >= 5 for n in cluster_sizes])} clusters with >= 5 sequences.')
+    logger.info(f'There are {sum([n >= 10 for n in cluster_sizes])} clusters with >= 10 sequences.')
+    logger.info(f'There are {sum([n >= 50 for n in cluster_sizes])} clusters with >= 50 sequences.')
+    logger.info(f'There are {sum([n >= 100 for n in cluster_sizes])} clusters with >= 100 sequences.')
+    logger.info(f'There are {sum([n >= 500 for n in cluster_sizes])} clusters with >= 500 sequences.')
+    logger.info(f'There are {sum([n >= 1000 for n in cluster_sizes])} clusters with >= 1000 sequences.')
+    logger.info(f'There are {sum([n == 1 for n in cluster_sizes])} singletons.')
 
     conn_comps = list(nx.connected_components(graph))
     conn_comps.sort(key=lambda t: len(t), reverse=True)
