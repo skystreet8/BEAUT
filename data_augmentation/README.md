@@ -28,7 +28,8 @@ They are provided in the `../PocketMatch/cabbage-file_maker/` folder
 as `pos_v2_structs_high_index_sub_pockets.tar.gz`.
 ## 5. Run PocketMatch to get pocket similarity results
 First, make two folders `cabbage_files` and `results` under the `../PocketMatch` folder.
-Make a folder `BA_transformer_pockets` under the `../PocketMatch/cabbage-file_maker/` folder
+Make a folder `BA_transformer_pockets` under the `../PocketMatch/cabbage-file_maker/` folder.
+Then change to the `scripts` folder as your working directory and continue.
 ### 5.1 Make cabbage files
 Copy the folders containing the query pockets to `../PocketMatch/cabbage-file_maker/BA_transformer_pockets/`.
 
@@ -45,6 +46,15 @@ overwrite `outfile.cabbage`.
 Run `bash make_cab_files_BA_transformers.sh` to make the cabbage files for the
 query pockets. This will produce 14 cabbage files in the `../cabbage_files/`
 folder, two for one organism.
+
+If many `Permission denied` appear as error messages, run the following 
+commands under the `cabbage-file_maker` folder:
+
+`chmod +x Step0-cabbage_core`
+
+`chmod +x Step0-cabbage_decoder`
+
+`chmod +x Step0-END-FILE`
 ### 5.2 Run similarity calculations
 First, `cd ..`.
 
