@@ -54,10 +54,10 @@ if __name__ == '__main__':
     for fold in tqdm(range(1, 6), total=5):
         dataset.set_fold(fold)
         if aug:
-            model.load_state_dict(torch.load(f'../models/ba_pred_DNN_aug_fold_{fold}.pth')['model_state_dict'])
+            model.load_state_dict(torch.load(f'../models/BEAUT_aug_fold_{fold}.pth')['model_state_dict'])
         else:
             model.load_state_dict(torch.load(
-                f'../models/ba_pred_DNN_base_fold_{fold}.pth')['model_state_dict'])
+                f'../models/BEAUT_base_fold_{fold}.pth')['model_state_dict'])
         model.to(DEVICE)
         test_predictions, test_labels = predict(model, test_dataloader)
         test_predictions = np.array(test_predictions)
@@ -74,6 +74,6 @@ if __name__ == '__main__':
     df = pd.DataFrame(data, columns=['fold'])
     df = df.assign(AUPR=auprs, F1_score=f1_scores, MCC=mccs)
     if aug:
-        df.to_csv('../data/ba_pred_DNN_aug_eval_metrics.csv', index=False)
+        df.to_csv('../data/BEAUT_aug_eval_metrics.csv', index=False)
     else:
-        df.to_csv('../data/ba_pred_DNN_base_eval_metrics.csv', index=False)
+        df.to_csv('../data/BEAUT_base_eval_metrics.csv', index=False)

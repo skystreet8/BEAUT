@@ -44,7 +44,7 @@ Run `python eval_metrics.py` or `python eval_metrics.py --aug` to
 calculate the evaluation metrics for the Base or the Aug model, respectively.
 The results will be saved at `../data/`.
 We used the models with the best AUPR values in our study. The models were
-copied and renamed to `ba_pred_DNN_base.pth` and `ba_pred_DNN_aug.pth`.
+copied and renamed to `BEAUT_base.pth` and `BEAUT_aug.pth`.
 ## Model usage
 You can use `test_case.py` to test a single protein sequence.
 

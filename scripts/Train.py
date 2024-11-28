@@ -93,9 +93,9 @@ if __name__ == '__main__':
         loss_fn = nn.BCELoss()
         optimizer = Adam(model.parameters(), lr=LR, weight_decay=1e-4)
         if args.aug:
-            stopper = EarlyStopping(mode='lower', patience=5, filename=f'../models/ba_pred_DNN_aug_fold_{i + 1}.pth')
+            stopper = EarlyStopping(mode='lower', patience=5, filename=f'../models/BEAUT_aug_fold_{i + 1}.pth')
         else:
-            stopper = EarlyStopping(mode='lower', patience=5, filename=f'../models/ba_pred_DNN_base_fold_{i + 1}.pth')
+            stopper = EarlyStopping(mode='lower', patience=5, filename=f'../models/BEAUT_base_fold_{i + 1}.pth')
         scheduler = ReduceLROnPlateau(optimizer, factor=0.2, patience=3, min_lr=5e-6)
         num_batches = len(train_dataloader)
         logger.info('-------Starting training-------')

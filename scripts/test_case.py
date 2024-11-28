@@ -29,9 +29,9 @@ if __name__ == '__main__':
     seq_repr = seq_repr.to(DEVICE)
     model = DNNPredictor(1280, [256, 32])
     if args['aug']:
-        model.load_state_dict(torch.load('../models/ba_pred_DNN_aug.pth')['model_state_dict'])
+        model.load_state_dict(torch.load('../models/BEAUT_aug.pth')['model_state_dict'])
     else:
-        model.load_state_dict(torch.load('../models/ba_pred_DNN_base.pth')['model_state_dict'])
+        model.load_state_dict(torch.load('../models/BEAUT_base.pth')['model_state_dict'])
     model.to(DEVICE)
     prob = predict(model, seq_repr, threshold=args['thresh'], return_prob=True)
     prob = prob.detach().cpu().item()

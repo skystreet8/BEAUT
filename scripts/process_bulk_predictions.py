@@ -8,7 +8,7 @@ parser = ArgumentParser()
 parser.add_argument('-m', '--model', required=True, help='Processing Base / Aug model predictions.')
 args = parser.parse_args()
 if args.model == 'aug':
-    result_file = '../data/PRJNA28331_aug/PRJNA28331_results_ba_pred_DNN_aug.pkl'
+    result_file = '../data/PRJNA28331_aug/PRJNA28331_results_BEAUT_aug.pkl'
     seq2organism = pickle.load(open('../data/PRJNA28331_seq2organism.pkl', 'rb'))
     results = pickle.load(open(result_file, 'rb'))
     headers, seqs = ReadFastaFile('../data/PRJNA28331_filtered_proteins.fasta')
@@ -26,7 +26,7 @@ if args.model == 'aug':
         sub_headers, sub_seqs = sub_df['header'].values.tolist(), sub_df['seq'].values.tolist()
         SaveFastaFile(f'../data/PRJNA28331_aug/PRJNA28331_filtered_proteins_positive_results_aug_pt{i}.fasta', sub_headers, sub_seqs)
 elif args.model == 'base':
-    result_file = '../data/PRJNA28331_base/PRJNA28331_results_ba_pred_DNN_base.pkl'
+    result_file = '../data/PRJNA28331_base/PRJNA28331_results_BEAUT_base.pkl'
     seq2organism = pickle.load(open('../data/PRJNA28331_seq2organism.pkl', 'rb'))
     results = pickle.load(open(result_file, 'rb'))
     headers, seqs = ReadFastaFile('../data/PRJNA28331_filtered_proteins.fasta')

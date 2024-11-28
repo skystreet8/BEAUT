@@ -35,9 +35,9 @@ if __name__ == '__main__':
     all_res = []
     model = DNNPredictor(1280, [256, 32])
     if args['aug']:
-        model.load_state_dict(torch.load('../models/ba_pred_DNN_aug.pth')['model_state_dict'])
+        model.load_state_dict(torch.load('../models/BEAUT_aug.pth')['model_state_dict'])
     else:
-        model.load_state_dict(torch.load('../models/ba_pred_DNN_base.pth')['model_state_dict'])
+        model.load_state_dict(torch.load('../models/BEAUT_base.pth')['model_state_dict'])
     model.to(DEVICE)
     for batch_seq_reprs in tqdm(test_dataloader, total=len(test_dataloader)):
         batch_seq_reprs = batch_seq_reprs.to(DEVICE)
@@ -48,10 +48,10 @@ if __name__ == '__main__':
     print(all_res.count(1))
     result = {k: v for k, v in zip(test_dataset.headers, all_probs)}
     if args['aug']:
-        with open(f'../data/{args["fasta"]}_results_ba_pred_DNN_aug.pkl', 'wb') as f:
+        with open(f'../data/{args["fasta"]}_results_BEAUT_aug.pkl', 'wb') as f:
             pickle.dump(result, f)
         f.close()
     else:
-        with open(f'../data/{args["fasta"]}_results_ba_pred_DNN_base.pkl', 'wb') as f:
+        with open(f'../data/{args["fasta"]}_results_BEAUT_base.pkl', 'wb') as f:
             pickle.dump(result, f)
         f.close()
