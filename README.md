@@ -11,9 +11,10 @@ Requirements:
 - PyTorch 1.13.1
 - nltk
 - pandas
-- scipy
+- networkx
 - scikit-learn
 - tqdm
+- biotite
 - Install ESM-2 following the README in the `esm` folder. 
 ## Training the Base & Aug model
 ### Step 1
