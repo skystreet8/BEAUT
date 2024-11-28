@@ -33,9 +33,9 @@ Then change to the `scripts` folder as your working directory and continue.
 ### 5.1 Make cabbage files
 Copy the folders containing the query pockets to `../PocketMatch/cabbage-file_maker/BA_transformer_pockets/`.
 
-`cp -r "../data/BA_transformers/high_index_pockets_filtered/" ../PocketMatch/cabbage-file_maker/BA_transformer_pockets/`
+`cp -r "../data/BA_transformers/high_plddt_pockets_filtered/" ../PocketMatch/cabbage-file_maker/BA_transformer_pockets/`
 
-`cp -r ../data/BA_transformers/high_index_pockets_rescue_filtered/ ../PocketMatch/cabbage-file_maker/BA_transformer_pockets/`
+`cp -r ../data/BA_transformers/high_plddt_pockets_rescue_filtered/ ../PocketMatch/cabbage-file_maker/BA_transformer_pockets/`
 
 Then `cd ../PocketMatch/cabbage-file_maker`.
 Run `bash ./Step0-cabbage.sh pos_v2_structs_high_index_sub_pockets/` to make the
