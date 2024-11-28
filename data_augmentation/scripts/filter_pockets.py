@@ -22,6 +22,11 @@ def get_index(s: str):
         return s.split('_')[2].split('.')[0]
 
 
+def mkdir_p(fp):
+    if not os.path.exists(fp):
+        os.mkdir(fp)
+
+
 if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('-o', '--organism', type=str, default='')
@@ -54,20 +59,26 @@ if __name__ == '__main__':
             pm_tgt_dir = f'../data/pos_v2_structs_high_plddt_pockets_vol_filtered_pm'
             id_tgt_dir = f'../data/pos_v2_structs_high_plddt_pockets_filtered'
         func = get_plddt_index
-    if not os.path.exists(vol_tgt_dir):
-        os.mkdir(vol_tgt_dir)
-    if not os.path.exists(pm_tgt_dir):
-        os.mkdir(pm_tgt_dir)
-    if not os.path.exists(id_tgt_dir):
-        os.mkdir(id_tgt_dir)
+    if args.rescue:
+        mkdir_p('../data/BA_transformers/high_plddt_pockets_rescue_vol_filtered')
+        mkdir_p('../data/BA_transformers/high_plddt_pockets_rescue_vol_filtered_pm')
+        mkdir_p('../data/BA_transformers/high_plddt_pockets_rescue_filtered')
+    else:
+        mkdir_p('../data/BA_transformers/high_plddt_pockets_vol_filtered')
+        mkdir_p('../data/BA_transformers/high_plddt_pockets_vol_filtered_pm')
+        mkdir_p('../data/BA_transformers/high_plddt_pockets_filtered')
+    mkdir_p(vol_tgt_dir)
+    mkdir_p(pm_tgt_dir)
+    mkdir_p(id_tgt_dir)
+
     header2pocket = defaultdict(list)
     pocket2vol = defaultdict(float)
-    for f in tqdm(os.listdir(src_dir)):
-        if '_cavity_' in f:
-            h = get_header(f)
-            index = get_index(f)
-            header2pocket[h].append(f)
-            pocket2vol[f] = get_pocket_volume(os.path.join(src_dir, f'{h}_vacant_{index}.pdb'))
+    pocket_files = [f for f in os.listdir(src_dir) if '_cavity_' in f]
+    for f in tqdm(pocket_files):
+        h = get_header(f)
+        index = get_index(f)
+        header2pocket[h].append(f)
+        pocket2vol[f] = get_pocket_volume(os.path.join(src_dir, f'{h}_vacant_{index}.pdb'))
     print(f'{len(pocket2vol)} pockets in total.')
     c = 0
     if args.organism:
