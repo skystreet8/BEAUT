@@ -6,7 +6,7 @@ from collections import Counter
 from tqdm import tqdm
 
 
-pos_headers, pos_seqs = ReadFastaFile('../data/positive_seqs_v2.fasta')
+pos_headers, pos_seqs = ReadFastaFile('../../data/positive_seqs_v2.fasta')
 datadir = '../PocketMatch/results'
 fasta_dir = '../data/BA_transformers'
 orgs = ['B_Ado', 'B_Xyl', 'C_Com', 'C_M62_1', 'H_Fil', 'R_Gna', 'S_Inf']
