@@ -58,6 +58,8 @@ commands under the `cabbage-file_maker` folder:
 ### 5.2 Run similarity calculations
 First, `cd ..`.
 
+Run `chmod +x ./Step3-PM_typeB` to avoid permission errors.
+
 Run `bash calc_pok_sim_BA_transformers_against_pos.sh`.
 This will give 14 files containing the pairwise pocket similarity
 between the query pockets and the reference pockets in the `results` folder.
