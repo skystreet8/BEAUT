@@ -20,7 +20,7 @@ As this step requires very long time, precomputed pockets(gzipped files) are pro
 in the `data/BA_transformers/` folder. 
 ## 4. Filter out the query pockets from all pockets extracted from protein structures of the 7 selected organisms
 Run `python filter_pockets.py -o <organism>` and `python filter_pockets.py -o <organism> -r`.
-This would extract query pockets with volumes of 1000-5500 &#x100C5;^3 and pocket indexes &#x12265; 0.7.
+This would extract query pockets with volumes of 1000-5500 &#x00C5;^3 and pocket indexes &#x2265; 0.7.
 Pockets are converted to PocketMatch acceptable format. 
 
 The reference pockets from the primary positive samples were prepared manually.
@@ -71,4 +71,4 @@ primary positive samples as well as the augmentation samples in the `../data/` f
 
 This will produce two additional files, `BA_transformers_default_matched_pockets_against_pos.csv`
 and `BA_transformers_rescue_matched_pockets_against_pos.csv` in the `../data/`folder.
-They record pocket pairs with similarities &#x12265; 0.7. 
+They record pocket pairs with similarities &#x2265; 0.7. 
