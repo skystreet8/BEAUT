@@ -29,6 +29,6 @@ if args.multiple:
         os.remove(os.path.join(datadir, file))
 else:
     chunk = torch.load(os.path.join(datadir, 'embeddings_0.pt'))
-    chunk = {k: chunk[k]['mean_representations'][33] for k in chunk}
+    chunk = chunk[args.fasta]
     torch.save(chunk, os.path.join(datadir, f'{args.fasta}.pt'))
     os.remove(os.path.join(datadir, 'embeddings_0.pt'))

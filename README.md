@@ -58,12 +58,12 @@ for using the Aug model. The Base model is default.
 
 Before prediction, you need to compute the ESM-2 representations.
 
-If you only have one sequence, run `bash ../esm/esm-extract.sh <your FASTA file name> ../data/case_embeddings/`.
-Then immediately run `python convert_embedding_chunks.py -f <your FASTA file name>`. If not the next run of ESM-2
+First, `cd ../esm`. If you only have one sequence, run `bash esm-extract.sh <your FASTA file name>.fasta ../data/case_embeddings/`.
+Then `cd ../scripts` and immediately run `python convert_embedding_chunks.py -f <your FASTA file name>`. If not the next run of ESM-2
 would overwrite the previous output. `<your FASTA file name>` should not include the `.fasta` postfix.
 
-If you have multiple sequences, run `bash ../esm/esm-extract.sh <your FASTA file name> ../data/`.
-Run `python convert_embedding_chunks.py -f <your FASTA file name> --multiple`.
+If you have multiple sequences, run `bash esm-extract.sh <your FASTA file name>.fasta ../data/`. Then `cd ../scripts` and 
+run `python convert_embedding_chunks.py -f <your FASTA file name> --multiple`.
 
 `test_case.py` will directly print out the predicted probability.
 `test_bulk.py` will save the results as *.pkl files in the `data` folder.
