@@ -6,11 +6,12 @@ from torch.utils.data import Dataset
 class SequenceDataset(Dataset):
     def __init__(self, fold: int, aug=False):
         if aug:
-            self.dataset = pd.read_csv('../data/sequence_dataset_v2_substrate_pocket_aug_train_only.csv')
-            self.embeddings = torch.load('../data/seq_embeddings_v2_substrate_pocket_aug_train_only.pt')
+            self.dataset = pd.read_csv('../data/sequence_dataset_v3_substrate_pocket_aug_train_only_eq_len_dist.csv')
+            self.embeddings = torch.load('../data/seq_embeddings_v3_substrate_pocket_aug_train_only_eq_len_dist.pt')
         else:
-            self.dataset = pd.read_csv('../data/sequence_dataset_v2.csv')
-            self.embeddings = torch.load('../data/seq_embeddings_v2.pt')
+            self.dataset = pd.read_csv('../data/sequence_dataset_v3.csv')
+            self.embeddings = torch.load('../data/seq_embeddings_v3.pt')
+        self.headers = self.dataset['header'].values.tolist()
         self.embeddings = [self.embeddings[k] for k in self.dataset['header'].values.tolist()]
         self.labels = self.dataset['label'].values.tolist()
         self.key = f'dataset_fold_{fold}'
@@ -25,7 +26,7 @@ class SequenceDataset(Dataset):
         self.test_ids = self.dataset[self.dataset[self.key] == 'test'].index.values.tolist()
 
     def __getitem__(self, item):
-        return self.embeddings[item], torch.tensor([self.labels[item]], dtype=torch.float)
+        return self.embeddings[item], torch.tensor([self.labels[item]], dtype=torch.float), self.headers[item]
 
     def __len__(self):
         return len(self.dataset)
@@ -41,3 +42,17 @@ class SequenceTestDataset(Dataset):
 
     def __len__(self):
         return len(self.data)
+
+
+class EFEvalDataset(Dataset):
+    def __init__(self):
+        self.dataset = pd.read_csv('../data/ef_eval_dataset_aug_eq_len_dist.csv')
+        self.embeddings = torch.load('../data/seq_embeddings_v3_substrate_pocket_aug_train_only.pt')
+        self.embeddings = [self.embeddings[k] for k in self.dataset['header'].values.tolist()]
+        self.labels = self.dataset['label'].values.tolist()
+
+    def __getitem__(self, item):
+        return self.embeddings[item], torch.tensor([self.labels[item]], dtype=torch.float)
+
+    def __len__(self):
+        return len(self.dataset)

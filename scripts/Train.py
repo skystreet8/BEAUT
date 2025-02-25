@@ -10,6 +10,7 @@ from early_stopping import EarlyStopping
 from dataset import SequenceDataset
 from argparse import ArgumentParser
 import os
+from sklearn.metrics import average_precision_score
 logger = logging.getLogger('Train')
 logger.addHandler(logging.StreamHandler())
 logger.setLevel(logging.INFO)
@@ -21,7 +22,7 @@ def train(model, train_dataloader, optimizer, loss_fn, epoch):
     train_loss = 0
     logger.info(f'Epoch ::: {epoch}')
     for batch_idx, batch_data in enumerate(train_dataloader):
-        reprs, labels = batch_data
+        reprs, labels, _ = batch_data
         reprs, labels = reprs.to(DEVICE), labels.to(DEVICE)
         out = model(reprs)
         out = torch.sigmoid(out)
@@ -38,7 +39,7 @@ def evaluate(model, val_dataloader, loss_fn):
     val_loss = 0
     with torch.no_grad():
         for batch_idx, batch_data in enumerate(val_dataloader):
-            repr, labels = batch_data
+            repr, labels, _ = batch_data
             repr, labels = repr.to(DEVICE), labels.to(DEVICE)
             out = model(repr)
             out = torch.sigmoid(out)
@@ -53,7 +54,7 @@ def predict(model, test_dataloader, threshold=0.5):
     test_labels = []
     with torch.no_grad():
         for batch_idx, batch_data in enumerate(test_dataloader):
-            reprs, labels = batch_data
+            reprs, labels, _ = batch_data
             labels = labels.numpy()
             logger.debug(labels.shape)
             test_labels.extend(list(labels))
@@ -64,6 +65,25 @@ def predict(model, test_dataloader, threshold=0.5):
             logger.debug(probs.shape)  # Should be (batch_size, 10117)
             batch_predictions = np.where(probs > threshold, 1, 0)
             predictions.extend(list(batch_predictions))
+    return predictions, test_labels
+
+
+def eval_metric(model, val_dataloader):
+    model.eval()
+    predictions = []
+    test_labels = []
+    with torch.no_grad():
+        for batch_idx, batch_data in enumerate(val_dataloader):
+            reprs, labels, _ = batch_data
+            labels = labels.numpy()
+            logger.debug(labels.shape)
+            test_labels.extend(list(labels))
+            reprs = reprs.to(DEVICE)
+            out = model(reprs)
+            probs = torch.sigmoid(out)
+            probs = probs.cpu().numpy()
+            logger.debug(probs.shape)  # Should be (batch_size, 10117)
+            predictions.extend(list(probs))
     return predictions, test_labels
 
 
@@ -93,18 +113,21 @@ if __name__ == '__main__':
         loss_fn = nn.BCELoss()
         optimizer = Adam(model.parameters(), lr=LR, weight_decay=1e-4)
         if args.aug:
-            stopper = EarlyStopping(mode='lower', patience=5, filename=f'../models/BEAUT_aug_fold_{i + 1}.pth')
+            stopper = EarlyStopping(mode='higher', patience=5, filename=f'../models/BEAUT_aug_fold_{i + 1}.pth')
         else:
-            stopper = EarlyStopping(mode='lower', patience=5, filename=f'../models/BEAUT_base_fold_{i + 1}.pth')
+            stopper = EarlyStopping(mode='higher', patience=5, filename=f'../models/BEAUT_base_fold_{i + 1}.pth')
         scheduler = ReduceLROnPlateau(optimizer, factor=0.2, patience=3, min_lr=5e-6)
         num_batches = len(train_dataloader)
         logger.info('-------Starting training-------')
         for ne in range(NUM_EPOCHS):
             train(model, train_dataloader, optimizer, loss_fn, ne + 1)
-            val_loss = evaluate(model, val_dataloader, loss_fn)
-            early_stop = stopper.step(val_loss, model)
-            logger.info(f'Validation loss: {round(val_loss, 4)}')
+            # val_loss = evaluate(model, val_dataloader, loss_fn)
+            val_probs, val_labels = eval_metric(model, val_dataloader)
+            AUPR = average_precision_score(val_labels, val_probs)
+            early_stop = stopper.step(AUPR, model)
+            # logger.info(f'Validation loss: {round(val_loss, 4)}')
+            logger.info(f'Validation AUPR: {round(AUPR, 4)}')
             if early_stop:
                 logger.info('Early stopped!')
                 break
-            scheduler.step(val_loss)
+            scheduler.step(AUPR)
