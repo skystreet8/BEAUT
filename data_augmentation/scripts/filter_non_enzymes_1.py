@@ -3,6 +3,7 @@ from functools import partial
 import pandas as pd
 from nltk import word_tokenize
 import logging
+import re
 
 
 logger = logging.getLogger('filter_non_enzymes_1')
@@ -46,7 +47,7 @@ filter_ase_words = {'permease', 'peptidase', 'helicase', 'exonuclease', 'atpases
                     'cutinase', '1,4-beta-cellobiosidase', 'dipeptidylpeptidase', 'd-aminopeptidase',
                     'amylopullulanase'}
 
-organisms = ['B_Adolescentis', 'B_Xylanisolvens', 'C_Comes', 'C_M62_1', 'H_Filiformis', 'R_Gnavus', 'S_Infantarius']
+organisms = ['B_Ado', 'B_Xyl', 'C_Com', 'C_M62_1', 'H_Fil', 'R_Gna', 'S_Inf']
 accessions = ['GCF_000010425.1', 'GCA_000210075.1', 'GCA_000155875.1', 'GCF_000159055.1', 'GCA_000157995.1',
               'GCF_009831375.1', 'GCA_000154985.1']
 
@@ -56,8 +57,10 @@ for organism, accession in zip(organisms, accessions):
     logger.info(f'Accession: {accession}')
     logger.info('--------------------------------')
     annotation_df = read_tsv(f'../data/BA_transformers/{accession}.tsv')
-    genome_headers, genome_seqs = ReformatFastaFile(f'../data/BA_transformers/{accession}.faa')
+    genome_headers, genome_seqs = ReformatFastaFile(f'../data/BA_transformers/{organism}_filtered_neg_seqs.fasta')
     genome_headers = [re.split(r'\s+', h)[0] for h in genome_headers]
+    drop_indexes = [t[0] for t in annotation_df.itertuples() if t[1] not in genome_headers]
+    annotation_df.drop(drop_indexes, inplace=True)
     assert len(set(genome_headers) & set(annotation_df['query'].values.tolist())) == len(annotation_df)
 
     filtered_dfs = []
@@ -106,6 +109,8 @@ for organism, accession in zip(organisms, accessions):
     logger.info(f'Keep {len(final_df)} annotated sequences in total.')
 
     merged_df = pd.concat(filtered_dfs, ignore_index=True)
+    drop_indexes = [t[0] for t in merged_df.itertuples() if t[1] not in genome_headers]
+    merged_df.drop(drop_indexes, inplace=True)
     header2seq = {}
     for h, s in zip(genome_headers, genome_seqs):
         header2seq[h] = s
