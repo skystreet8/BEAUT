@@ -38,8 +38,8 @@ Copy the folders containing the query pockets to `../PocketMatch/cabbage-file_ma
 `cp -r ../data/BA_transformers/high_plddt_pockets_rescue_filtered/ ../PocketMatch/cabbage-file_maker/BA_transformer_pockets/`
 
 Then `cd ../PocketMatch/cabbage-file_maker`.
-Run `bash ./Step0-cabbage.sh pos_v2_structs_high_index_sub_pockets/` to make the
-cabbage file for the reference pockets. Run `mv outfile.cabbage ../cabbage_files/pos_v2_structs_high_index_sub_pockets.cabbage`
+Run `bash ./Step0-cabbage.sh pos_v3_structs_high_index_sub_pockets/` to make the
+cabbage file for the reference pockets. Run `mv outfile.cabbage ../cabbage_files/pos_v3_structs_high_index_sub_pockets.cabbage`
 immediately. Otherwise, the next time you run `bash ./Step0-cabbage.sh` will 
 overwrite `outfile.cabbage`.
 
@@ -66,7 +66,7 @@ between the query pockets and the reference pockets in the `results` folder.
 ## 6. Analyze pocket similarity and collect augmentation data
 Run `python process_pocketmatch_outputs.py`.
 This will produce the augmentation samples as `substrate_pocket_sim_aug.fasta`
-and another file `positive_seqs_v2_substrate_pocket_aug.fasta` containing the
+and another file `positive_seqs_v3_substrate_pocket_aug_v3.fasta` containing the
 primary positive samples as well as the augmentation samples in the `../data/` folder.
 
 This will produce two additional files, `BA_transformers_default_matched_pockets_against_pos.csv`
