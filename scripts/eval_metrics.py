@@ -1,5 +1,4 @@
 import pickle
-from argparse import ArgumentParser
 import logging
 import numpy as np
 import pandas as pd
@@ -47,14 +46,7 @@ def predict(model, test_dataloader, threshold=0.5):
 
 
 if __name__ == '__main__':
-    parser = ArgumentParser()
-    parser.add_argument('--aug', action='store_true', default=False)
-    args = parser.parse_args()
-    aug = args.aug
-    if aug:
-        threshold = 0.5
-    else:
-        threshold = 0.9
+    threshold = 0.5
     auprs = []
     f1_scores = []
     f2_scores = []
@@ -63,17 +55,13 @@ if __name__ == '__main__':
     recs = []
     conf_mats = []
     model = DNNPredictor(1280, [256, 32])
-    dataset = SequenceDataset(fold=1, aug=aug)
+    dataset = SequenceDataset(fold=1)
     test_dataset = Subset(dataset, indices=dataset.test_ids)
     test_dataloader = DataLoader(test_dataset, batch_size=128)
     results = {}
     for fold in tqdm(range(1, 6), total=5):
         dataset.set_fold(fold)
-        if aug:
-            model.load_state_dict(torch.load(f'../models/BEAUT_aug_fold_{fold}.pth')['model_state_dict'])
-        else:
-            model.load_state_dict(torch.load(
-                f'../models/BEAUT_base_fold_{fold}.pth')['model_state_dict'])
+        model.load_state_dict(torch.load(f'../models/BEAUT_aug_fold_{fold}.pth')['model_state_dict'])
         model.to(DEVICE)
         test_probs, test_predictions, test_labels, test_headers = predict(model, test_dataloader, threshold=threshold)
         results[fold] = [test_probs, test_labels, test_headers]
@@ -99,8 +87,5 @@ if __name__ == '__main__':
     df = pd.DataFrame(data, columns=['fold'])
     df = df.assign(AUPR=auprs, Recall=recs, Precision=precs, F1_score=f1_scores, F2_score=f2_scores,
                    MCC=mccs, Confusion_matrix=conf_mats)
-    if aug:
-        df.to_csv('../data/BEAUT_aug_eval_metrics.csv', index=False)
-    else:
-        df.to_csv('../data/BEAUT_base_eval_metrics.csv', index=False)
+    df.to_csv('../data/BEAUT_aug_eval_metrics.csv', index=False)
     pickle.dump(results, open('../data/BEAUT_aug_test_results.pkl', 'wb'))

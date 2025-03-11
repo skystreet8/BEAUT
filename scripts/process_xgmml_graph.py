@@ -3,7 +3,6 @@ import networkx as nx
 from copy import deepcopy
 import xml.parsers.expat
 import time
-from argparse import ArgumentParser
 import logging
 logger = logging.getLogger('process_xgmml_graph')
 logger.addHandler(logging.StreamHandler())
@@ -115,10 +114,6 @@ def XGMMLReader(graph_file):
     return parser.graph()
 
 
-parser = ArgumentParser()
-parser.add_argument('-m', '--model', required=True, help='Processing Base / Aug model predictions.')
-args = parser.parse_args()
-
 ssn_name = 'alnscore60_full'
 keep_node_keys_repl = {
     'Taxonomy ID': 'taxonomy_id',
@@ -133,43 +128,41 @@ remove_node_keys = ['Sequence Source', 'Other IDs', 'Gene Name', 'NCBI IDs', 'Li
                     'Genus', 'Species', 'PDB', 'TIGRFAMs', 'InterPro (Domain)', 'InterPro (Family)', 'InterPro (Homologous Superfamily)',
                     'InterPro (Other)', 'BRENDA ID', 'Cazy Name', 'GO Term', 'KEGG ID', 'PATRIC ID', 'STRING ID', 'HMP Body Site', 'HMP Oxygen',
                     'P01 gDNA', 'Rhea', 'AlphaFold', 'Sequence']
-if args.model in {'base', 'aug'}:
-    start_time = time.monotonic()
-    graph = XGMMLReader(
-        open(f'../data/PRJNA28331_{args.model}/PRJNA28331_{args.model}_alnscore60_ssn_clusters_full/PRJNA28331_{args.model}_{ssn_name}_ssn.xgmml',
-             'rb')
-    )
-    end_time = time.monotonic()
-    logger.info(f'{round(end_time - start_time, 0)}s used for loading the graph.')
-    start_time = time.monotonic()
-    graph = graph.to_undirected()
-    end_time = time.monotonic()
-    logger.info(f'{round(end_time - start_time, 0)}s used for transforming the graph to undirected.')
 
-    logger.info(f'There are {graph.number_of_nodes()} nodes in the graph.')
-    logger.info(f'There are {graph.number_of_edges()} egdes in the graph.')
-    n_connected_components = len(list(nx.connected_components(graph)))
-    logger.info(f'There are {n_connected_components} clusters in the graph.')
-    cluster_sizes = [len(c) for c in nx.connected_components(graph)]
-    logger.info(f'Largest cluster: {max(cluster_sizes)}')
-    logger.info(f'There are {sum([n >= 3 for n in cluster_sizes])} clusters with >= 3 sequences.')
-    logger.info(f'There are {sum([n >= 5 for n in cluster_sizes])} clusters with >= 5 sequences.')
-    logger.info(f'There are {sum([n >= 10 for n in cluster_sizes])} clusters with >= 10 sequences.')
-    logger.info(f'There are {sum([n >= 50 for n in cluster_sizes])} clusters with >= 50 sequences.')
-    logger.info(f'There are {sum([n >= 100 for n in cluster_sizes])} clusters with >= 100 sequences.')
-    logger.info(f'There are {sum([n >= 500 for n in cluster_sizes])} clusters with >= 500 sequences.')
-    logger.info(f'There are {sum([n >= 1000 for n in cluster_sizes])} clusters with >= 1000 sequences.')
-    logger.info(f'There are {sum([n == 1 for n in cluster_sizes])} singletons.')
+start_time = time.monotonic()
+graph = XGMMLReader(
+    open(f'../data/PRJNA28331_aug/PRJNA28331_aug_alnscore60_ssn_clusters_full/PRJNA28331_aug_{ssn_name}_ssn.xgmml',
+         'rb')
+)
+end_time = time.monotonic()
+logger.info(f'{round(end_time - start_time, 0)}s used for loading the graph.')
+start_time = time.monotonic()
+graph = graph.to_undirected()
+end_time = time.monotonic()
+logger.info(f'{round(end_time - start_time, 0)}s used for transforming the graph to undirected.')
 
-    conn_comps = list(nx.connected_components(graph))
-    conn_comps.sort(key=lambda t: len(t), reverse=True)
-    conn_comps_to_save = []
-    for comp in conn_comps:
-        conn_comps_to_save.append([])
-        for n in comp:
-            conn_comps_to_save[-1].extend(graph.nodes[n]['Description'])
-    with open(f'../data/PRJNA28331_{args.model}/PRJNA28331_{args.model}_{ssn_name}_clusters.pkl', 'wb') as f:
-        pickle.dump(conn_comps_to_save, f)
-    f.close()
-else:
-    raise NotImplementedError()
+logger.info(f'There are {graph.number_of_nodes()} nodes in the graph.')
+logger.info(f'There are {graph.number_of_edges()} egdes in the graph.')
+n_connected_components = len(list(nx.connected_components(graph)))
+logger.info(f'There are {n_connected_components} clusters in the graph.')
+cluster_sizes = [len(c) for c in nx.connected_components(graph)]
+logger.info(f'Largest cluster: {max(cluster_sizes)}')
+logger.info(f'There are {sum([n >= 3 for n in cluster_sizes])} clusters with >= 3 sequences.')
+logger.info(f'There are {sum([n >= 5 for n in cluster_sizes])} clusters with >= 5 sequences.')
+logger.info(f'There are {sum([n >= 10 for n in cluster_sizes])} clusters with >= 10 sequences.')
+logger.info(f'There are {sum([n >= 50 for n in cluster_sizes])} clusters with >= 50 sequences.')
+logger.info(f'There are {sum([n >= 100 for n in cluster_sizes])} clusters with >= 100 sequences.')
+logger.info(f'There are {sum([n >= 500 for n in cluster_sizes])} clusters with >= 500 sequences.')
+logger.info(f'There are {sum([n >= 1000 for n in cluster_sizes])} clusters with >= 1000 sequences.')
+logger.info(f'There are {sum([n == 1 for n in cluster_sizes])} singletons.')
+
+conn_comps = list(nx.connected_components(graph))
+conn_comps.sort(key=lambda t: len(t), reverse=True)
+conn_comps_to_save = []
+for comp in conn_comps:
+    conn_comps_to_save.append([])
+    for n in comp:
+        conn_comps_to_save[-1].extend(graph.nodes[n]['Description'])
+with open(f'../data/PRJNA28331_aug/PRJNA28331_aug_{ssn_name}_clusters.pkl', 'wb') as f:
+    pickle.dump(conn_comps_to_save, f)
+f.close()

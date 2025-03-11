@@ -8,7 +8,6 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 from models import DNNPredictor
 from early_stopping import EarlyStopping
 from dataset import SequenceDataset
-from argparse import ArgumentParser
 import os
 from sklearn.metrics import f1_score
 logger = logging.getLogger('Train')
@@ -90,9 +89,6 @@ def eval_metric(model, val_dataloader):
 
 
 if __name__ == '__main__':
-    parser = ArgumentParser()
-    parser.add_argument('--aug', action='store_true', default=False, help='Whether to train the Aug model.')
-    args = parser.parse_args()
     LR = 0.0002
     BATCH_SIZE = 64
     NUM_FOLDS = 5
@@ -100,7 +96,7 @@ if __name__ == '__main__':
     if not os.path.exists('../models'):
         os.mkdir('../models')
 
-    dataset = SequenceDataset(fold=1, aug=args.aug)
+    dataset = SequenceDataset(fold=1)
     test_dataset = Subset(dataset, indices=dataset.test_ids)
     test_dataloader = DataLoader(test_dataset, batch_size=BATCH_SIZE)
     for i in range(NUM_FOLDS):
@@ -114,10 +110,7 @@ if __name__ == '__main__':
         model.to(DEVICE)
         loss_fn = nn.CrossEntropyLoss()
         optimizer = Adam(model.parameters(), lr=LR, weight_decay=1e-4)
-        if args.aug:
-            stopper = EarlyStopping(mode='higher', patience=5, filename=f'../models/BEAUT_aug_fold_{i + 1}.pth')
-        else:
-            stopper = EarlyStopping(mode='higher', patience=5, filename=f'../models/BEAUT_base_fold_{i + 1}.pth')
+        stopper = EarlyStopping(mode='higher', patience=5, filename=f'../models/BEAUT_aug_fold_{i + 1}.pth')
         scheduler = ReduceLROnPlateau(optimizer, factor=0.2, patience=3, min_lr=5e-6)
         num_batches = len(train_dataloader)
         logger.info('-------Starting training-------')
