@@ -9,13 +9,12 @@ def predict(model, input_repr, threshold=0.5, return_prob=False):
     with torch.no_grad():
         input_repr = input_repr.to(DEVICE)
         out = model(input_repr)
-        prob = torch.sigmoid(out)
+        probs = torch.softmax(out, dim=0)
+        probs = probs.cpu().numpy()
         if return_prob:
-            return prob
-        if prob > threshold:
-            return 1
+            return list(probs)
         else:
-            return 0
+            return int(probs[0] < probs[1])
 
 
 if __name__ == '__main__':
@@ -34,5 +33,4 @@ if __name__ == '__main__':
         model.load_state_dict(torch.load('../models/BEAUT_base.pth')['model_state_dict'])
     model.to(DEVICE)
     prob = predict(model, seq_repr, threshold=args['thresh'], return_prob=True)
-    prob = prob.detach().cpu().item()
-    print(round(prob, 4))
+    print(round(prob[1], 4))

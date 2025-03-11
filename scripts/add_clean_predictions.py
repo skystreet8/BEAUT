@@ -19,7 +19,7 @@ if args.model == 'base':
     df.to_csv('../data/PRJNA28331_base/PRJNA28331_base_final.csv', index=False)
 elif args.model == 'aug':
     ec_dfs = []
-    for i in range(1, 11):
+    for i in range(1, 15):
         ec_df = pd.read_csv(
             f'../data/PRJNA28331_aug/PRJNA28331_filtered_proteins_positive_results_aug_filtered_by_annotation_pt{i}_maxsep.csv',
             names=['header', 'pred_1', 'pred_2', 'pred_3', 'pred_4', 'pred_5'])
@@ -29,7 +29,7 @@ elif args.model == 'aug':
         ec_dfs.append(ec_df)
     merged_ec_df = pd.concat(ec_dfs, ignore_index=True)
     dfs = []
-    for i in range(1, 11):
+    for i in range(1, 15):
         df = pd.read_csv(
             f'../data/PRJNA28331_aug/PRJNA28331_filtered_proteins_positive_results_aug_filtered_by_annotation_pt{i}.csv')
         dfs.append(df)

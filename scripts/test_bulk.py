@@ -9,18 +9,14 @@ from dataset import SequenceTestDataset
 DEVICE = torch.device('cuda:0') if torch.cuda.is_available() else torch.device('cpu')
 
 
-def predict(model, input_repr, threshold=0.5, return_prob=False):
+def predict(model, input_repr):
     model.eval()
     with torch.no_grad():
         input_repr = input_repr.to(DEVICE)
         out = model(input_repr)
-        prob = torch.sigmoid(out)
-        prob = torch.squeeze(prob)
-        prob = prob.cpu().numpy()
-        if return_prob:
-            return prob
-        else:
-            return np.where(prob > threshold, 1, 0)
+        probs = torch.softmax(out, dim=1)
+        probs = probs.cpu().numpy()
+        return probs
 
 
 if __name__ == '__main__':
@@ -41,10 +37,10 @@ if __name__ == '__main__':
     model.to(DEVICE)
     for batch_seq_reprs in tqdm(test_dataloader, total=len(test_dataloader)):
         batch_seq_reprs = batch_seq_reprs.to(DEVICE)
-        prob = predict(model, batch_seq_reprs, threshold=args['thresh'], return_prob=True)
-        res = predict(model, batch_seq_reprs, threshold=args['thresh'], return_prob=False)
+        prob = predict(model, batch_seq_reprs)
+        batch_predictions = np.argmax(prob, axis=1)
         all_probs.extend(list(prob))
-        all_res.extend(list(res))
+        all_res.extend(list(batch_predictions))
     print(all_res.count(1))
     result = {k: v for k, v in zip(test_dataset.headers, all_probs)}
     if args['aug']:

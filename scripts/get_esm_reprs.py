@@ -14,7 +14,7 @@ neg_embeddings = torch.load('../data/negative_seqs_v2_embeddings.pt')
 if args.model == 'base':
     dataset = pd.read_csv('../data/sequence_dataset_v3.csv')
 elif args.model == 'aug':
-    dataset = pd.read_csv('../data/sequence_dataset_v3_substrate_pocket_aug_train_only_eq_len_dist.csv')
+    dataset = pd.read_csv('../data/sequence_dataset_v3_substrate_pocket_aug_eq_len_dist.csv')
 else:
     raise NotImplementedError()
 headers = dataset['header'].values.tolist()
@@ -31,4 +31,4 @@ for k in tqdm(headers):
 if args.model == 'base':
     torch.save(data, '../data/seq_embeddings_v3.pt')
 elif args.model == 'aug':
-    torch.save(data, '../data/seq_embeddings_v3_substrate_pocket_aug_train_only_eq_len_dist.pt')
+    torch.save(data, '../data/seq_embeddings_v3_substrate_pocket_aug_eq_len_dist.pt')

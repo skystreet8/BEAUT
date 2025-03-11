@@ -10,7 +10,7 @@ from early_stopping import EarlyStopping
 from dataset import SequenceDataset
 from argparse import ArgumentParser
 import os
-from sklearn.metrics import average_precision_score
+from sklearn.metrics import f1_score
 logger = logging.getLogger('Train')
 logger.addHandler(logging.StreamHandler())
 logger.setLevel(logging.INFO)
@@ -25,7 +25,7 @@ def train(model, train_dataloader, optimizer, loss_fn, epoch):
         reprs, labels, _ = batch_data
         reprs, labels = reprs.to(DEVICE), labels.to(DEVICE)
         out = model(reprs)
-        out = torch.sigmoid(out)
+        labels = labels.squeeze(dim=1)
         loss = loss_fn(out, labels)
         train_loss += loss.item()
         optimizer.zero_grad()
@@ -42,7 +42,7 @@ def evaluate(model, val_dataloader, loss_fn):
             repr, labels, _ = batch_data
             repr, labels = repr.to(DEVICE), labels.to(DEVICE)
             out = model(repr)
-            out = torch.sigmoid(out)
+            labels = labels.squeeze(dim=1)
             loss = loss_fn(out, labels)
             val_loss += loss.item()
     return val_loss / (batch_idx + 1)
@@ -55,15 +55,16 @@ def predict(model, test_dataloader, threshold=0.5):
     with torch.no_grad():
         for batch_idx, batch_data in enumerate(test_dataloader):
             reprs, labels, _ = batch_data
+            labels = labels.squeeze(dim=1)
             labels = labels.numpy()
             logger.debug(labels.shape)
             test_labels.extend(list(labels))
             reprs = reprs.to(DEVICE)
             out = model(reprs)
-            probs = torch.sigmoid(out)
+            probs = torch.softmax(out, dim=1)
             probs = probs.cpu().numpy()
-            logger.debug(probs.shape)  # Should be (batch_size, 10117)
-            batch_predictions = np.where(probs > threshold, 1, 0)
+            logger.debug(probs.shape)
+            batch_predictions = np.argmax(probs, axis=1)
             predictions.extend(list(batch_predictions))
     return predictions, test_labels
 
@@ -80,10 +81,11 @@ def eval_metric(model, val_dataloader):
             test_labels.extend(list(labels))
             reprs = reprs.to(DEVICE)
             out = model(reprs)
-            probs = torch.sigmoid(out)
+            probs = torch.softmax(out, dim=1)
             probs = probs.cpu().numpy()
             logger.debug(probs.shape)  # Should be (batch_size, 10117)
-            predictions.extend(list(probs))
+            batch_predictions = np.argmax(probs, axis=1)
+            predictions.extend(list(batch_predictions))
     return predictions, test_labels
 
 
@@ -110,7 +112,7 @@ if __name__ == '__main__':
         val_dataloader = DataLoader(val_dataset, batch_size=BATCH_SIZE)
         model = DNNPredictor(1280, [256, 32])
         model.to(DEVICE)
-        loss_fn = nn.BCELoss()
+        loss_fn = nn.CrossEntropyLoss()
         optimizer = Adam(model.parameters(), lr=LR, weight_decay=1e-4)
         if args.aug:
             stopper = EarlyStopping(mode='higher', patience=5, filename=f'../models/BEAUT_aug_fold_{i + 1}.pth')
@@ -122,12 +124,12 @@ if __name__ == '__main__':
         for ne in range(NUM_EPOCHS):
             train(model, train_dataloader, optimizer, loss_fn, ne + 1)
             # val_loss = evaluate(model, val_dataloader, loss_fn)
-            val_probs, val_labels = eval_metric(model, val_dataloader)
-            AUPR = average_precision_score(val_labels, val_probs)
-            early_stop = stopper.step(AUPR, model)
+            val_preds, val_labels = eval_metric(model, val_dataloader)
+            f1 = f1_score(val_labels, val_preds)
+            early_stop = stopper.step(f1, model)
             # logger.info(f'Validation loss: {round(val_loss, 4)}')
-            logger.info(f'Validation AUPR: {round(AUPR, 4)}')
+            logger.info(f'Validation F1-score: {round(f1, 4)}')
             if early_stop:
                 logger.info('Early stopped!')
                 break
-            scheduler.step(AUPR)
+            scheduler.step(f1)

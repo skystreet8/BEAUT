@@ -20,7 +20,7 @@ class DNNPredictor(nn.Module):
                         nn.ReLU()
                     )
                 )
-        self.output_layer = nn.Linear(hidden_size[-1], 1)
+        self.output_layer = nn.Linear(hidden_size[-1], 2)
 
     def forward(self, x):
         for layer in self.layers:

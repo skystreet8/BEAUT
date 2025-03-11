@@ -117,7 +117,7 @@ if args.model == 'base':
     pos_headers, pos_seqs = full_df['header'].values.tolist(), full_df['seq'].values.tolist()
     SaveFastaFile('../data/PRJNA28331_base/PRJNA28331_filtered_proteins_positive_results_base_filtered_by_annotation.fasta', pos_headers, pos_seqs)
 elif args.model == 'aug':
-    for pt in range(1, 11):
+    for pt in range(1, 15):
         df = read_tsv(f'../data/PRJNA28331_aug/pt{pt}.emapper.annotations')
         organism_df = pd.read_csv(
             f'../data/PRJNA28331_aug/PRJNA28331_filtered_proteins_positive_results_aug_pt{pt}.csv')
