@@ -1,11 +1,14 @@
 import pickle
-
+from argparse import ArgumentParser
 from utils import *
 import pandas as pd
 import networkx as nx
 import random
 
-source = 'pos_seqs_v3_sub_pok_sim_aug_v3'
+parser = ArgumentParser()
+parser.add_argument('-f', '--file', type=str, required=True)
+args = parser.parse_args()
+source = args.file
 if source == 'pos_seqs_v3':
     pos_h, pos_s = ReadFastaFile('../data/positive_seqs_v3.fasta')
     # Load positive headers with high quality pockets
@@ -44,6 +47,8 @@ if source == 'pos_seqs_v3':
     pos_s = [h2s[h] for h in pos_h]
     print(len(pos_h))
     SaveFastaFile('../data/positive_seqs_v3_unique.fasta', pos_h, pos_s)
+    aug_h, aug_s = ReadFastaFile('../data/substrate_pocket_sim_aug_v3.fasta')
+    SaveFastaFile('../data/positive_seqs_v3_substrate_pocket_sim_aug_v3.fasta', pos_h + aug_h, pos_s + aug_s)
 elif source == 'pos_seqs_v3_sub_pok_sim_aug_v3':
     pos_h, pos_s = ReadFastaFile('../data/positive_seqs_v3_substrate_pocket_sim_aug_v3.fasta')
     h2s = {h: s for h, s in zip(pos_h, pos_s)}

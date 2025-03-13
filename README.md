@@ -17,10 +17,38 @@ Requirements:
 - scikit-learn
 - tqdm
 - biotite
-- Install ESM-2 following the README in the `esm` folder. 
-## Training the Base & Aug model
+- fair-esm >= 2
+- DIAMOND 2.1.9.163
+## Training the Aug model
+`cd scripts`
+### Step 0
+This step removes redundant sequences at 90% sequence identity. First you should use DIAMOND to calculate the pairwise
+sequence idenitites of the 469 primary positive sequences. Place your DIAMOND executive under `scripts` folder and run
+
+`./diamond makedb --in ../data/positive_seqs_v3.fasta -d ../data/pos_seqs_v3`
+
+`./diamond blastp -q ../data/positive_seqs_v3.fasta -d ../data/pos_seqs_v3 -o ../data/pos_seqs_v3_self_blast.tsv 
+--ultra-sensitive -k 0`
+
+Then run `python select_unique_seqs.py -f pos_seqs_v3`. This first processes the 469 primary positive sequences
+(`../data/positive_seqs_v3.fasta`) and produces 151 non-redundant primary positive sequences with maximum pairwise
+identity &#60; 90% (`../data/positive_seqs_v3_unique.fasta`). Also, these sequences are merged with the augmentation
+sequences to produce 2392 augmented positive sequences in total (`../data/positive_seqs_v3_substrate_pocket_sim_aug_v3.fasta`).
+After calculating pairwise sequence identities of these augmented positive sequences with DIAMOND, 
+
+`./diamond makedb --in ../data/positive_seqs_v3_substrate_pocket_sim_aug_v3.fasta -d ../data/pos_seqs_v3_sub_pok_sim_aug_v3`
+
+`./diamond blastp -q ../data/positive_seqs_v3_substrate_pocket_sim_aug_v3.fasta -d ../data/pos_seqs_v3_sub_pok_sim_aug_v3 -o ../data/pos_seqs_v3_sub_pok_sim_aug_v3_self_blast.tsv --ultra-sensitive -k 0`
+
+run `python select_unique_seqs.py -f pos_seqs_v3_sub_pok_sim_aug_v3` to remove redundant sequences from the 2392 augmented
+positive sequences (`../data/positive_seqs_v3_substrate_pocket_sim_aug_v3_unique.fasta`).
+This should give 2383 sequences in total which will be used to generate the data sets.
 ### Step 1
-Run `cd scripts`.
+Use DIAMOND to calculate the pairwise sequence identities for the 2383 augmented positive sequences:
+
+`./diamond makedb --in ../data/positive_seqs_v3_substrate_pocket_sim_aug_v3_unique.fasta -d ../data/pos_seqs_v3_sub_pok_sim_aug_v3_uniq`
+
+`./diamond blastp -q ../data/positive_seqs_v3_substrate_pocket_sim_aug_v3_unique.fasta -d ../data/pos_seqs_v3_sub_pok_sim_aug_v3_uniq -o ../data/pos_seqs_v3_sub_pok_sim_aug_v3_uniq_self_blast.tsv --ultra-sensitive -k 0`
 
 Run `python generate_datasets_aug.py`
 to generate your data sets for model training. This first clusters the augmented positive samples according to their
