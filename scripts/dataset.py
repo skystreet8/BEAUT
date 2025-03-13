@@ -6,8 +6,8 @@ from torch.utils.data import Dataset
 class SequenceDataset(Dataset):
     def __init__(self, fold: int):
 
-        self.dataset = pd.read_csv('../data/sequence_dataset_v3_substrate_pocket_aug_eq_len_dist.csv')
-        self.embeddings = torch.load('../data/seq_embeddings_v3_substrate_pocket_aug_eq_len_dist.pt')
+        self.dataset = pd.read_csv('../data/sequence_dataset_v3_substrate_pocket_aug.csv')
+        self.embeddings = torch.load('../data/seq_embeddings_v3_substrate_pocket_aug.pt')
         self.headers = self.dataset['header'].values.tolist()
         self.embeddings = [self.embeddings[k] for k in self.dataset['header'].values.tolist()]
         self.labels = self.dataset['label'].values.tolist()

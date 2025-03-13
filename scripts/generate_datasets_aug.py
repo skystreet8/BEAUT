@@ -154,4 +154,4 @@ data = {'header': no_test_pos_headers + no_test_neg_headers + test_pos_headers +
         'dataset_fold_5': datasets[4] + ['test' for _ in range(num_test_seqs)],
         }
 df = pd.DataFrame(data=data)
-df.to_csv(f'../data/sequence_dataset_v3_substrate_pocket_aug_eq_len_dist.csv', index=False) #
+df.to_csv(f'../data/sequence_dataset_v3_substrate_pocket_aug.csv', index=False) #

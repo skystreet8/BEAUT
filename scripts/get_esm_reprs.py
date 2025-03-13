@@ -5,7 +5,7 @@ from tqdm import tqdm
 pos_embeddings = torch.load('../data/positive_seqs_v2_substrate_pocket_aug_embeddings.pt')
 neg_embeddings = torch.load('../data/negative_seqs_v2_embeddings.pt')
 
-dataset = pd.read_csv('../data/sequence_dataset_v3_substrate_pocket_aug_eq_len_dist.csv')
+dataset = pd.read_csv('../data/sequence_dataset_v3_substrate_pocket_aug.csv')
 headers = dataset['header'].values.tolist()
 data = {}
 for k in tqdm(headers):
@@ -16,4 +16,4 @@ for k in tqdm(headers):
     else:
         print(k)
         raise KeyError
-torch.save(data, '../data/seq_embeddings_v3_substrate_pocket_aug_eq_len_dist.pt')
+torch.save(data, '../data/seq_embeddings_v3_substrate_pocket_aug.pt')
