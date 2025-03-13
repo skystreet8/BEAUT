@@ -62,12 +62,13 @@ components.sort(key=lambda x: len(x), reverse=True)
 components = [list(clu) for clu in components]  # 951 clusters
 
 # Select test positive samples
-num_test_pos_headers = int(round(len(pos_headers) * TEST_RATIO, 0))  # 238 test sequences
 test_possible_clus = [deepcopy(components[i]) for i in range(len(components))]
 keep_test_clus = [i for i in range(len(components)) if set(test_possible_clus[i]) & set(pos_h_v3) == set(test_possible_clus[i])]
 test_pos_headers = []  # Test for positive seqs
 for i in keep_test_clus:
     test_pos_headers.extend(test_possible_clus[i])
+keep_test_pos_headers = deepcopy(test_pos_headers)
+num_test_pos_headers = int(round(len(pos_headers) * TEST_RATIO, 0)) + len(keep_test_pos_headers)  # 274 test sequences
 test_possible_clus = [deepcopy(test_possible_clus[i]) for i in range(len(components)) if i not in keep_test_clus]
 random.shuffle(test_possible_clus)
 test_pos_clus = []  # Indexes for clusters to be tested
@@ -82,7 +83,7 @@ while True:
     if flag:
         break
     else:
-        test_pos_headers = []
+        test_pos_headers = deepcopy(keep_test_pos_headers)
         test_pos_clus = []
         random.shuffle(test_possible_clus)
 print(len(test_pos_clus) + len(keep_test_clus))
