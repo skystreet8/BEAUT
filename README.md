@@ -43,6 +43,9 @@ After calculating pairwise sequence identities of these augmented positive seque
 run `python select_unique_seqs.py -f pos_seqs_v3_sub_pok_sim_aug_v3` to remove redundant sequences from the 2392 augmented
 positive sequences (`../data/positive_seqs_v3_substrate_pocket_sim_aug_v3_unique.fasta`).
 This should give 2383 sequences in total which will be used to generate the data sets.
+
+As this step could be random, the files generated in developing the model are provided in the data archive. You can
+directly use the archived files to reproduce our results. 
 ### Step 1
 Use DIAMOND to calculate the pairwise sequence identities for the 2383 augmented positive sequences:
 
@@ -68,7 +71,7 @@ positive sample ratio to the validation set which is 1:5. The negative samples i
 and have no overlap. Evaluation will be performed on both the full test set and the 5 re-balanced test sets.
 
 The data sets used to train
-our own models are provided in the `data` folder with the name `sequence_dataset_v2_substrate_pocket_aug.csv`.
+our own models are provided in the `data` folder with the name `sequence_dataset_v3_substrate_pocket_aug.csv`.
 ### Step 2
 Run `python get_esm_reprs.py` to get ESM-2 representations of
 positive & negative sequences for the Aug model.
