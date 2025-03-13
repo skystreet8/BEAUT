@@ -84,6 +84,9 @@ Run `python eval_metrics.py` to calculate the evaluation metrics for the Aug mod
 The results will be saved at `../data/BEAUT_aug_eval_metrics.csv`.
 We used the model with the best AUPR value in our study. The model was
 copied and renamed `BEAUT_aug.pth`.
+
+To evaluate the best model with balanced test sets(as described in Step 1), run `python generate_balanced_test_sets.py`
+and then run `python eval_metrics_balanced.py`. The results on 5 balanced test sets are saved at `../data/BEAUT_aug_eval_metrics_balanced.csv`.
 ## Model usage
 You can use `test_case.py` to test a single protein sequence.
 
