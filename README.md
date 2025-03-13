@@ -21,7 +21,7 @@ Requirements:
 - DIAMOND 2.1.9.163
 ## Training the Aug model
 `cd scripts`
-### Step 0
+### Step 1
 This step removes redundant sequences at 90% sequence identity. First you should use DIAMOND to calculate the pairwise
 sequence idenitites of the 469 primary positive sequences. Place your DIAMOND executive under `scripts` folder and run
 
@@ -46,7 +46,7 @@ This should give 2383 sequences in total which will be used to generate the data
 
 As this step could be random, the files generated in developing the model are provided in the data archive. You can
 directly use the archived files to reproduce our results. 
-### Step 1
+### Step 2
 Use DIAMOND to calculate the pairwise sequence identities for the 2383 augmented positive sequences:
 
 `./diamond makedb --in ../data/positive_seqs_v3_substrate_pocket_sim_aug_v3_unique.fasta -d ../data/pos_seqs_v3_sub_pok_sim_aug_v3_uniq`
@@ -72,11 +72,9 @@ and have no overlap. Evaluation will be performed on both the full test set and 
 
 The data sets used to train
 our own models are provided in the `data` folder with the name `sequence_dataset_v3_substrate_pocket_aug.csv`.
-### Step 2
-Run `python get_esm_reprs.py` to get ESM-2 representations of
-positive & negative sequences for the Aug model.
 ### Step 3
-Run `python Train.py` to train the Aug model.
+Run `python Train.py` to train the Aug model. This step requires the sequence embedding data `../data/seq_embeddings_v3_substrate_pocket_aug.pt`
+which covers all negative sequences and the 2383 augmented positive sequences. 
 
 We provided the trained models in the `models` folder.
 
