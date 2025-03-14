@@ -56,7 +56,7 @@ for organism, accession in zip(organisms, accessions):
     logger.info(f'Organism: {organism}')
     logger.info(f'Accession: {accession}')
     logger.info('--------------------------------')
-    annotation_df = read_tsv(f'../data/BA_transformers/{accession}.tsv')
+    annotation_df = read_tsv(f'../data/BA_transformers/{organism}.tsv')
     genome_headers, genome_seqs = ReformatFastaFile(f'../data/BA_transformers/{organism}_filtered_neg_seqs.fasta')
     genome_headers = [re.split(r'\s+', h)[0] for h in genome_headers]
     drop_indexes = [t[0] for t in annotation_df.itertuples() if t[1] not in genome_headers]
