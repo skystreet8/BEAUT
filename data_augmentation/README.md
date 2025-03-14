@@ -13,6 +13,8 @@ Run DIAMOND with the following commands:
 `./diamond blastp -q ../data/BA_transformers/<organism>.faa -d ../data/neg_seqs_v2 
 -o ../data/BA_transformers/<organism>_against_neg_seqs_v2_blast.tsv --id 50`
 
+The available organisms are `B_Ado, B_Xyl, C_Com, C_M62_1, H_Fil, R_Gna, S_Inf`.
+
 Then run `python remove_possible_neg_seqs.py` to remove sequences that have at least one hit
 with identity &#8805; 50 and bitscore &#8805; 50 to the negative sequences. 
 
