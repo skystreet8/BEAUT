@@ -1,7 +1,5 @@
 # Producing augmentation samples based on substrate pocket similarity
 First, `cd ./data_augmentation/scripts`.
-## 0. Remove possible non-enzymes & unrelated enzymes from genome sequences
-
 ## 1. Processing genome sequences from selected organisms
 First, we remove possible negative sequences using BLAST with the genome sequences as query and our negative sequences as target.
 Run DIAMOND with the following commands:
@@ -42,7 +40,7 @@ Pockets are converted to PocketMatch acceptable format.
 
 The reference pockets from the primary positive samples were prepared manually.
 They are provided in the `../PocketMatch/cabbage-file_maker/` folder
-as `pos_v2_structs_high_index_sub_pockets.tar.gz`.
+as `pos_v3_structs_high_index_sub_pockets.tar.gz`.
 ## 5. Run PocketMatch to get pocket similarity results
 First, make two folders `cabbage_files` and `results` under the `../PocketMatch` folder.
 Make a folder `BA_transformer_pockets` under the `../PocketMatch/cabbage-file_maker/` folder.
