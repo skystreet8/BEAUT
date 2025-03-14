@@ -60,5 +60,3 @@ for i, df in tqdm(enumerate(dfs), total=len(dfs)):
 rescue_qdf_merged = pd.concat(rescue_qdfs, ignore_index=True)
 rescue_qdf_merged.to_csv('../data/BA_transformers_rescue_matched_pockets_against_pos.csv', index=False)
 SaveFastaFile('../data/substrate_pocket_sim_aug_v3.fasta', aug_headers, aug_seqs)
-SaveFastaFile('../data/positive_seqs_v3_substrate_pocket_sim_aug_v3.fasta',
-              pos_headers + aug_headers, pos_seqs + aug_seqs)
