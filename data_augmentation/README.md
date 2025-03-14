@@ -80,9 +80,7 @@ This will give 14 files containing the pairwise pocket similarity
 between the query pockets and the reference pockets in the `results` folder.
 ## 6. Analyze pocket similarity and collect augmentation data
 Run `python process_pocketmatch_outputs.py`.
-This will produce the augmentation samples as `substrate_pocket_sim_aug.fasta`
-and another file `positive_seqs_v3_substrate_pocket_aug_v3.fasta` containing the
-primary positive samples as well as the augmentation samples in the `../data/` folder.
+This will produce the augmentation samples as `substrate_pocket_sim_aug_v3.fasta`.
 
 This will produce two additional files, `BA_transformers_default_matched_pockets_against_pos.csv`
 and `BA_transformers_rescue_matched_pockets_against_pos.csv` in the `../data/`folder.
