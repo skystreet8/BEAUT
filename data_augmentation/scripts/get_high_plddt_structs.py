@@ -6,10 +6,10 @@ from tqdm import tqdm
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-o', '--organism', type=str, default='')
+parser.add_argument('-o', '--organism', type=str, required=True)
 args = parser.parse_args()
 organism = args.organism
-if organism:
+if organism in ['B_Ado', 'B_Xyl', 'C_Com', 'C_M62_1', 'H_Fil', 'R_Gna', 'S_Inf']:
     src_dir = f'../data/BA_transformers/{organism}_pdbs'
     tgt_dir = f'../data/BA_transformers/high_plddt_structs/{organism}_pdbs'
     if not os.path.exists('../data/BA_transformers/high_plddt_structs'):
@@ -17,10 +17,7 @@ if organism:
     if not os.path.exists(tgt_dir):
         os.mkdir(tgt_dir)
 else:
-    src_dir = '../data/positive_seqs_v2_pdbs'
-    tgt_dir = '../data/positive_seqs_v2_pdbs_high_plddt'
-    if not os.path.exists(tgt_dir):
-        os.mkdir(tgt_dir)
+    raise NotImplementedError()
 fnames = os.listdir(src_dir)
 keep_fnames = []
 for f in tqdm(fnames):
