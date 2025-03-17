@@ -1,7 +1,10 @@
 import pandas as pd
 from collections import defaultdict
 from ec_utils import shorten_ec, sort_ecs_short
+import pickle
 
+all_organisms = pickle.load(open('../data/PRJNA28331_organisms.pkl', 'rb'))
+all_organisms = set(all_organisms)
 df = pd.read_csv('../data/PRJNA28331_aug/PRJNA28331_aug_final.csv')
 df['clean_ec'] = df['clean_ec'].apply(eval)
 organism_set = set()
@@ -17,6 +20,10 @@ for t in df.itertuples():
         organism2headers[o].append(t[1])
 assert len(organism_set) == len(organism2headers)
 organism2num_seqs = {k: len(organism2headers[k]) for k in organism2headers}
+if len(organism2num_seqs) < len(all_organisms):
+    assert len(all_organisms - set(organism2num_seqs.keys())) == len(all_organisms) - len(organism2num_seqs)
+    for o in all_organisms - set(organism2num_seqs.keys()):
+        organism2num_seqs[o] = 0
 
 org_count_df = pd.DataFrame(organism2num_seqs.items(), columns=['organism', 'num_positive_seqs'])
 org_count_df.sort_values('num_positive_seqs', ascending=False, inplace=True)
@@ -37,11 +44,11 @@ for o in organism2ecs:
         all_shortend_ecs.add(s)
 all_shortend_ecs = list(all_shortend_ecs)
 all_shortend_ecs = sort_ecs_short(all_shortend_ecs)
-all_organisms = list(organism2ecs.keys())
+all_organisms_ = list(organism2ecs.keys())
 
-data = {'organism': all_organisms}
+data = {'organism': all_organisms_}
 for ec in all_shortend_ecs:
-    data[ec] = [organism2ecs[o].count(ec) for o in all_organisms]
+    data[ec] = [organism2ecs[o].count(ec) for o in all_organisms_]
 org_ec_count_df = pd.DataFrame(data, columns=['organism'] + all_shortend_ecs)
 total_seqs = [organism2num_seqs[t[1]] for t in org_ec_count_df.itertuples()]
 org_ec_count_df = org_ec_count_df.assign(total_seqs=total_seqs)
