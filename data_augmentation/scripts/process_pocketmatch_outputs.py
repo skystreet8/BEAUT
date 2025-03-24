@@ -9,7 +9,7 @@ from tqdm import tqdm
 pos_headers, pos_seqs = ReadFastaFile('../../data/positive_seqs_v3_unique.fasta')
 datadir = '../PocketMatch/results'
 fasta_dir = '../data/non_BA_transformers'
-orgs = ['A_muc', 'B_Ang', 'B_Dor', 'C_You', 'E_Rec', 'R_Lac', 'V_Vad']
+orgs = ['A_Muc', 'B_Ang', 'B_Dor', 'C_You', 'E_Rec', 'R_Lac', 'V_Vad']
 # organisms = ['B_Adolescentis', 'B_Xylanisolvens', 'C_Comes', 'C_M62_1', 'H_Filiformis', 'R_Gnavus', 'S_Infantarius']
 dfs = [read_txt(os.path.join(datadir, f'{o}_default_against_pos.txt'), format_q='genbank') for o in tqdm(orgs)]
 for df in dfs:

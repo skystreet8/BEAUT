@@ -2,7 +2,7 @@ import pandas as pd
 from utils import *
 
 
-orgs = ['A_muc', 'B_Ang', 'B_Dor', 'C_You', 'E_Rec', 'R_Lac', 'V_Vad']
+orgs = ['A_Muc', 'B_Ang', 'B_Dor', 'C_You', 'E_Rec', 'R_Lac', 'V_Vad']
 
 for o in orgs:
     df = pd.read_csv(f'../data/non_BA_transformers/{o}_against_neg_seqs_v2_blast.tsv', sep='\t',

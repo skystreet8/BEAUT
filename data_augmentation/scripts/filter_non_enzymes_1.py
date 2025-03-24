@@ -47,7 +47,7 @@ filter_ase_words = {'permease', 'peptidase', 'helicase', 'exonuclease', 'atpases
                     'cutinase', '1,4-beta-cellobiosidase', 'dipeptidylpeptidase', 'd-aminopeptidase',
                     'amylopullulanase'}
 
-organisms = ['A_muc', 'B_Ang', 'B_Dor', 'C_You', 'E_Rec', 'R_Lac', 'V_Vad']
+organisms = ['A_Muc', 'B_Ang', 'B_Dor', 'C_You', 'E_Rec', 'R_Lac', 'V_Vad']
 accessions = ['GCF_000020225.1', 'GCF_001025155.1', 'GCA_000156075.1', 'GCA_000155975.1', 'GCF_000020605.1',
               'GCA_000155205.1', 'GCA_003096415.1']
 
