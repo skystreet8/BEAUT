@@ -8,8 +8,8 @@ from tqdm import tqdm
 
 pos_headers, pos_seqs = ReadFastaFile('../../data/positive_seqs_v3_unique.fasta')
 datadir = '../PocketMatch/results'
-fasta_dir = '../data/BA_transformers'
-orgs = ['B_Ado', 'B_Xyl', 'C_Com', 'C_M62_1', 'H_Fil', 'R_Gna', 'S_Inf']
+fasta_dir = '../data/non_BA_transformers'
+orgs = ['A_muc', 'B_Ang', 'B_Dor', 'C_You', 'E_Rec', 'R_Lac', 'V_Vad']
 # organisms = ['B_Adolescentis', 'B_Xylanisolvens', 'C_Comes', 'C_M62_1', 'H_Filiformis', 'R_Gnavus', 'S_Infantarius']
 dfs = [read_txt(os.path.join(datadir, f'{o}_default_against_pos.txt'), format_q='genbank') for o in tqdm(orgs)]
 for df in dfs:
@@ -34,7 +34,7 @@ for i, df in tqdm(enumerate(dfs), total=len(dfs)):
     aug_headers.extend(this_aug_headers)
     aug_seqs.extend(this_aug_seqs)
 default_qdf_merged = pd.concat(default_qdfs, ignore_index=True)
-default_qdf_merged.to_csv('../data/BA_transformers_default_matched_pockets_against_pos.csv', index=False)
+default_qdf_merged.to_csv('../data/non_BA_transformers_default_matched_pockets_against_pos.csv', index=False)
 
 dfs = [read_txt(os.path.join(datadir, f'{o}_rescue_against_pos.txt'), format_q='genbank') for o in tqdm(orgs)]
 rescue_qdfs = []
@@ -58,5 +58,5 @@ for i, df in tqdm(enumerate(dfs), total=len(dfs)):
     aug_headers.extend(this_aug_headers)
     aug_seqs.extend(this_aug_seqs)
 rescue_qdf_merged = pd.concat(rescue_qdfs, ignore_index=True)
-rescue_qdf_merged.to_csv('../data/BA_transformers_rescue_matched_pockets_against_pos.csv', index=False)
-SaveFastaFile('../data/substrate_pocket_sim_aug_v3.fasta', aug_headers, aug_seqs)
+rescue_qdf_merged.to_csv('../data/non_BA_transformers_rescue_matched_pockets_against_pos.csv', index=False)
+SaveFastaFile('../data/substrate_pocket_sim_aug_v3_from_non_BA_transformers.fasta', aug_headers, aug_seqs)
