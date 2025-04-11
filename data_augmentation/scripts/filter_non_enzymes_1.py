@@ -47,17 +47,17 @@ filter_ase_words = {'permease', 'peptidase', 'helicase', 'exonuclease', 'atpases
                     'cutinase', '1,4-beta-cellobiosidase', 'dipeptidylpeptidase', 'd-aminopeptidase',
                     'amylopullulanase'}
 
-organisms = ['A_Muc', 'B_Ang', 'B_Dor', 'C_You', 'E_Rec', 'R_Lac', 'V_Vad']
-accessions = ['GCF_000020225.1', 'GCF_001025155.1', 'GCA_000156075.1', 'GCA_000155975.1', 'GCF_000020605.1',
-              'GCA_000155205.1', 'GCA_003096415.1']
+organisms = ['B_Ado', 'B_Xyl', 'C_Com', 'C_M62_1', 'H_Fil', 'R_Gna', 'S_Inf']
+accessions = ['GCF_000010425.1', 'GCA_000210075.1', 'GCA_000155875.1', 'GCF_000159055.1', 'GCA_000157995.1',
+              'GCF_009831375.1', 'GCA_000154985.1']
 
 for organism, accession in zip(organisms, accessions):
     logger.info('--------------------------------')
     logger.info(f'Organism: {organism}')
     logger.info(f'Accession: {accession}')
     logger.info('--------------------------------')
-    annotation_df = read_tsv(f'../data/non_BA_transformers/{organism}.tsv')
-    genome_headers, genome_seqs = ReformatFastaFile(f'../data/non_BA_transformers/{organism}_filtered_neg_seqs.fasta')
+    annotation_df = read_tsv(f'../data/BA_transformers/{organism}.tsv')
+    genome_headers, genome_seqs = ReformatFastaFile(f'../data/BA_transformers/{organism}_filtered_neg_seqs.fasta')
     genome_headers = [re.split(r'\s+', h)[0] for h in genome_headers]
     drop_indexes = [t[0] for t in annotation_df.itertuples() if t[1] not in genome_headers]
     annotation_df.drop(drop_indexes, inplace=True)
@@ -139,5 +139,5 @@ for organism, accession in zip(organisms, accessions):
     del merged_df['length']
     logger.info(f'Number of sequences after filtering and merging unannotated sequences: {len(merged_df)}')
     headers, seqs = merged_df['query'].values.tolist(), merged_df['seq'].values.tolist()
-    SaveFastaFile(f'../data/non_BA_transformers/{organism}_filtered.fasta', headers, seqs)
-    merged_df.to_csv(f'../data/non_BA_transformers/{organism}_filtered_with_annotations.csv', index=False)
+    SaveFastaFile(f'../data/BA_transformers/{organism}_filtered.fasta', headers, seqs)
+    merged_df.to_csv(f'../data/BA_transformers/{organism}_filtered_with_annotations.csv', index=False)

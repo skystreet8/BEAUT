@@ -34,23 +34,23 @@ if __name__ == '__main__':
     args = parser.parse_args()
     organism = args.organism
     if organism:
-        pdb_dir = f'../data/non_BA_transformers/high_plddt_structs/{organism}_pdbs'
+        pdb_dir = f'../data/BA_transformers/high_plddt_structs/{organism}_pdbs'
         if args.rescue:
-            src_dir = f'../data/non_BA_transformers/high_plddt_pockets_rescue/{organism}'
-            vol_tgt_dir = f'../data/non_BA_transformers/high_plddt_pockets_rescue_vol_filtered/{organism}'
-            pm_tgt_dir = f'../data/non_BA_transformers/high_plddt_pockets_rescue_vol_filtered_pm/{organism}'
-            id_tgt_dir = f'../data/non_BA_transformers/high_plddt_pockets_rescue_filtered/{organism}'
-            mkdir_p('../data/non_BA_transformers/high_plddt_pockets_rescue_vol_filtered')
-            mkdir_p('../data/non_BA_transformers/high_plddt_pockets_rescue_vol_filtered_pm')
-            mkdir_p('../data/non_BA_transformers/high_plddt_pockets_rescue_filtered')
+            src_dir = f'../data/BA_transformers/high_plddt_pockets_rescue/{organism}'
+            vol_tgt_dir = f'../data/BA_transformers/high_plddt_pockets_rescue_vol_filtered/{organism}'
+            pm_tgt_dir = f'../data/BA_transformers/high_plddt_pockets_rescue_vol_filtered_pm/{organism}'
+            id_tgt_dir = f'../data/BA_transformers/high_plddt_pockets_rescue_filtered/{organism}'
+            mkdir_p('../data/BA_transformers/high_plddt_pockets_rescue_vol_filtered')
+            mkdir_p('../data/BA_transformers/high_plddt_pockets_rescue_vol_filtered_pm')
+            mkdir_p('../data/BA_transformers/high_plddt_pockets_rescue_filtered')
         else:
-            src_dir = f'../data/non_BA_transformers/high_plddt_pockets/{organism}'
-            vol_tgt_dir = f'../data/non_BA_transformers/high_plddt_pockets_vol_filtered/{organism}'
-            pm_tgt_dir = f'../data/non_BA_transformers/high_plddt_pockets_vol_filtered_pm/{organism}'
-            id_tgt_dir = f'../data/non_BA_transformers/high_plddt_pockets_filtered/{organism}'
-            mkdir_p('../data/non_BA_transformers/high_plddt_pockets_vol_filtered')
-            mkdir_p('../data/non_BA_transformers/high_plddt_pockets_vol_filtered_pm')
-            mkdir_p('../data/non_BA_transformers/high_plddt_pockets_filtered')
+            src_dir = f'../data/BA_transformers/high_plddt_pockets/{organism}'
+            vol_tgt_dir = f'../data/BA_transformers/high_plddt_pockets_vol_filtered/{organism}'
+            pm_tgt_dir = f'../data/BA_transformers/high_plddt_pockets_vol_filtered_pm/{organism}'
+            id_tgt_dir = f'../data/BA_transformers/high_plddt_pockets_filtered/{organism}'
+            mkdir_p('../data/BA_transformers/high_plddt_pockets_vol_filtered')
+            mkdir_p('../data/BA_transformers/high_plddt_pockets_vol_filtered_pm')
+            mkdir_p('../data/BA_transformers/high_plddt_pockets_filtered')
         func = get_plddt_index_Calpha
     else:
         pdb_dir = '../data/positive_seqs_v2_pdbs'

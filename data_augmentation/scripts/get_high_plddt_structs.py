@@ -9,11 +9,11 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-o', '--organism', type=str, required=True)
 args = parser.parse_args()
 organism = args.organism
-if organism in ['A_Muc', 'B_Ang', 'B_Dor', 'C_You', 'E_Rec', 'R_Lac', 'V_Vad']:
-    src_dir = f'../data/non_BA_transformers/{organism}_pdbs'
-    tgt_dir = f'../data/non_BA_transformers/high_plddt_structs/{organism}_pdbs'
-    if not os.path.exists('../data/non_BA_transformers/high_plddt_structs'):
-        os.mkdir('../data/non_BA_transformers/high_plddt_structs')
+if organism in ['B_Ado', 'B_Xyl', 'C_Com', 'C_M62_1', 'H_Fil', 'R_Gna', 'S_Inf']:
+    src_dir = f'../data/BA_transformers/{organism}_pdbs'
+    tgt_dir = f'../data/BA_transformers/high_plddt_structs/{organism}_pdbs'
+    if not os.path.exists('../data/BA_transformers/high_plddt_structs'):
+        os.mkdir('../data/BA_transformers/high_plddt_structs')
     if not os.path.exists(tgt_dir):
         os.mkdir(tgt_dir)
 else:
