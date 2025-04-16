@@ -45,7 +45,7 @@ filter_ase_words = {'permease', 'peptidase', 'helicase', 'exonuclease', 'atpases
                     'cutinase', '1,4-beta-cellobiosidase', 'dipeptidylpeptidase', 'd-aminopeptidase',
                     'amylopullulanase'}
 
-for pt in range(1, 15):
+for pt in range(1, 13):
     df = read_tsv(f'../data/PRJNA28331_aug/pt{pt}.emapper.annotations')
     organism_df = pd.read_csv(
         f'../data/PRJNA28331_aug/PRJNA28331_filtered_proteins_positive_results_aug_pt{pt}.csv')

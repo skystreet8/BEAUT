@@ -3,7 +3,7 @@ from collections import defaultdict
 from ec_utils import shorten_ec, sort_ecs_short
 import pickle
 
-all_organisms = pickle.load(open('../data/PRJNA28331_organisms.pkl', 'rb'))
+all_organisms = pickle.load(open('../data/PRJNA28331_Genbank_organisms.pkl', 'rb'))
 all_organisms = set(all_organisms)
 df = pd.read_csv('../data/PRJNA28331_aug/PRJNA28331_aug_final.csv')
 df['clean_ec'] = df['clean_ec'].apply(eval)

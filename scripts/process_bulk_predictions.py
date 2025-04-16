@@ -2,10 +2,10 @@ import pandas as pd
 import pickle
 from utils import ReadFastaFile, SaveFastaFile
 
-result_file = '../data/PRJNA28331_aug/PRJNA28331_results_BEAUT_aug.pkl'
-seq2organism = pickle.load(open('../data/PRJNA28331_seq2organism.pkl', 'rb'))
+result_file = '../data/PRJNA28331_aug/PRJNA28331_Genbank_results_BEAUT_aug.pkl'
+seq2organism = pickle.load(open('../data/PRJNA28331_Genbank_seq2organism.pkl', 'rb'))
 results = pickle.load(open(result_file, 'rb'))
-headers, seqs = ReadFastaFile('../data/PRJNA28331_filtered_proteins.fasta')
+headers, seqs = ReadFastaFile('../data/PRJNA28331_Genbank_filtered_proteins.fasta')
 scores = [results[h][1] for h in headers]
 organisms = [list(seq2organism[s]) for s in seqs]
 for t in organisms:
