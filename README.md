@@ -108,7 +108,8 @@ run `python convert_embedding_chunks.py -f <your FASTA file name> --multiple`.
 ### Step 1
 Run `python test_bulk.py -f PRJNA28331_Genbank` to get the prediction scores from the Aug model.
 
-The results are saved at `../data/` by default. You need to make a directory `../data/PRJNA28331_aug/`
+The results are saved at `../data/PRJNA28331_Genbank_results_BEAUT_aug.pkl` by default.
+You need to make a directory `../data/PRJNA28331_aug/`
 and place the result from the Aug model under the directory.
 Following calculations assume you have done this and save their results under the directory. 
 ### Step 2
