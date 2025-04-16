@@ -84,7 +84,7 @@ We provided the trained models in the `models` folder.
 Run `python generate_balanced_test_sets.py` to generate 10 balanced test sets for model evaluation. 
 Run `python eval_metrics_balanced.py` to calculate the evaluation metrics for the Aug model on the balanced test sets.
 The results will be saved at `../data/BEAUT_aug_eval_metrics_balanced.csv`.
-We used the model with the best AUPR value in our study. The model was
+We used the model with the best average AUPR value in our study. The model was
 copied and renamed `BEAUT_aug.pth`.
 ## Model usage
 You can use `test_case.py` to test a single protein sequence.
@@ -106,7 +106,7 @@ run `python convert_embedding_chunks.py -f <your FASTA file name> --multiple`.
 `test_bulk.py` will save the results as *.pkl files in the `data` folder.
 ## Screening the PRJNA28331 dataset
 ### Step 1
-Run `python test_bulk.py -f PRJNA28331` to get the prediction scores from the Aug model.
+Run `python test_bulk.py -f PRJNA28331_Genbank` to get the prediction scores from the Aug model.
 
 The results are saved at `../data/` by default. You need to make a directory `../data/PRJNA28331_aug/`
 and place the result from the Aug model under the directory.
