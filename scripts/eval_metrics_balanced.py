@@ -7,7 +7,7 @@ from torch.utils.data import DataLoader
 from models import DNNPredictor
 from dataset import SequenceTestDataset
 from sklearn.metrics import average_precision_score, f1_score, matthews_corrcoef, precision_score, recall_score,\
-    confusion_matrix, fbeta_score
+    confusion_matrix, fbeta_score, auc, precision_recall_curve
 logger = logging.getLogger('Test')
 logger.addHandler(logging.StreamHandler())
 logger.setLevel(logging.INFO)
@@ -46,38 +46,43 @@ if __name__ == '__main__':
     precs = []
     recs = []
     conf_mats = []
-    model = DNNPredictor(1280, [256, 32])
-    results = {}
-    for i in tqdm(range(1, 6), total=5):
-        test_df = pd.read_csv(f'../data/test_set_sample_{i}.csv')
-        header2label = {t[1]: t[2] for t in test_df.itertuples()}
-        test_dataset = SequenceTestDataset(f'../data/test_set_sample_{i}_embeddings.pt')
-        test_dataloader = DataLoader(test_dataset, batch_size=128)
-        model.load_state_dict(torch.load(f'../models/BEAUT_aug.pth')['model_state_dict'])
+    folds = []
+    test_set_ids = []
+    for fold in tqdm(range(1, 6), total=5):
+        model = DNNPredictor(1280, [256, 32])
+        model.load_state_dict(torch.load(f'../models/BEAUT_aug_fold_{fold}.pth')['model_state_dict'])
         model.to(DEVICE)
-        test_probs, test_predictions = predict(model, test_dataloader, threshold=threshold)
-        test_headers = test_dataset.headers
-        test_labels = [header2label[h] for h in test_headers]
-
-        pos_probs = [t[1] for t in test_probs]
-        aupr = average_precision_score(test_labels, pos_probs)
-        auprs.append(aupr)
-        test_predictions = np.array(test_predictions)
-        test_labels = np.array(test_labels)
-        rec = round(recall_score(test_labels, test_predictions), 4)
-        recs.append(rec)
-        prec = round(precision_score(test_labels, test_predictions), 4)
-        precs.append(prec)
-        f1score = round(f1_score(test_labels, test_predictions), 4)
-        f1_scores.append(f1score)
-        f2score = round(fbeta_score(test_labels, test_predictions, beta=2), 4)
-        f2_scores.append(f2score)
-        mcc = round(matthews_corrcoef(test_labels, test_predictions), 4)
-        mccs.append(mcc)
-        conf_mat = confusion_matrix(test_labels, test_predictions)
-        conf_mats.append(list(conf_mat))
+        results = {}
+        for i in range(1, 11):
+            folds.append(fold)
+            test_set_ids.append(i)
+            test_df = pd.read_csv(f'../data/test_set_sample_{i}.csv')
+            header2label = {t[1]: t[2] for t in test_df.itertuples()}
+            test_dataset = SequenceTestDataset(f'../data/test_set_sample_{i}_embeddings.pt')
+            test_dataloader = DataLoader(test_dataset, batch_size=128)
+            test_probs, test_predictions = predict(model, test_dataloader, threshold=threshold)
+            test_headers = test_dataset.headers
+            test_labels = [header2label[h] for h in test_headers]
+            pos_probs = [t[1] for t in test_probs]
+            precisions, recalls, _ = precision_recall_curve(test_labels, pos_probs)
+            aupr = round(auc(recalls, precisions), 4)
+            auprs.append(aupr)
+            test_predictions = np.array(test_predictions)
+            test_labels = np.array(test_labels)
+            rec = round(recall_score(test_labels, test_predictions), 4)
+            recs.append(rec)
+            prec = round(precision_score(test_labels, test_predictions), 4)
+            precs.append(prec)
+            f1score = round(f1_score(test_labels, test_predictions), 4)
+            f1_scores.append(f1score)
+            f2score = round(fbeta_score(test_labels, test_predictions, beta=2), 4)
+            f2_scores.append(f2score)
+            mcc = round(matthews_corrcoef(test_labels, test_predictions), 4)
+            mccs.append(mcc)
+            conf_mat = confusion_matrix(test_labels, test_predictions)
+            conf_mats.append(list(conf_mat))
+    print([round(np.mean(auprs[i * 10:(i + 1) * 10]), 4) for i in range(5)])
     df = pd.DataFrame(data=None)
-    df.index = [f'test_set_sample_{i}' for i in range(1, 6)]
-    df = df.assign(AUPR=auprs, Recall=recs, Precision=precs, F1_score=f1_scores, F2_score=f2_scores,
-                   MCC=mccs, Confusion_matrix=conf_mats)
-    df.to_csv('../data/BEAUT_aug_eval_metrics_balanced.csv', index=True)
+    df = df.assign(fold=folds, test_set_id=test_set_ids, AUPR=auprs, Recall=recs, Precision=precs, F1_score=f1_scores,
+                   F2_score=f2_scores, MCC=mccs, Confusion_matrix=conf_mats)
+    df.to_csv('../data/BEAUT_aug_eval_metrics_balanced.csv', index=False)
