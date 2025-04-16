@@ -4,7 +4,7 @@ from models import DNNPredictor
 DEVICE = torch.device('cuda:0') if torch.cuda.is_available() else torch.device('cpu')
 
 
-def predict(model, input_repr, threshold=0.5, return_prob=False):
+def predict(model, input_repr, return_prob=False):
     model.eval()
     with torch.no_grad():
         input_repr = input_repr.to(DEVICE)
@@ -20,7 +20,6 @@ def predict(model, input_repr, threshold=0.5, return_prob=False):
 if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('-f', '--fasta', type=str, required=True, help='Name of the FASTA file')
-    parser.add_argument('-th', '--thresh', type=float, default=0.5)
     args = parser.parse_args().__dict__
     seq_repr = torch.load(f'../data/case_embeddings/{args["fasta"]}.pt')
     seq_repr = seq_repr['mean_representations'][33]
@@ -28,5 +27,5 @@ if __name__ == '__main__':
     model = DNNPredictor(1280, [256, 32])
     model.load_state_dict(torch.load('../models/BEAUT_aug.pth')['model_state_dict'])
     model.to(DEVICE)
-    prob = predict(model, seq_repr, threshold=args['thresh'], return_prob=True)
+    prob = predict(model, seq_repr, return_prob=True)
     print(round(prob[1], 4))

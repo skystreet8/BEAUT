@@ -47,7 +47,7 @@ def evaluate(model, val_dataloader, loss_fn):
     return val_loss / (batch_idx + 1)
 
 
-def predict(model, test_dataloader, threshold=0.5):
+def predict(model, test_dataloader):
     model.eval()
     predictions = []
     test_labels = []
@@ -82,7 +82,7 @@ def eval_metric(model, val_dataloader):
             out = model(reprs)
             probs = torch.softmax(out, dim=1)
             probs = probs.cpu().numpy()
-            logger.debug(probs.shape)  # Should be (batch_size, 10117)
+            logger.debug(probs.shape)
             batch_predictions = np.argmax(probs, axis=1)
             predictions.extend(list(batch_predictions))
     return predictions, test_labels
@@ -116,11 +116,9 @@ if __name__ == '__main__':
         logger.info('-------Starting training-------')
         for ne in range(NUM_EPOCHS):
             train(model, train_dataloader, optimizer, loss_fn, ne + 1)
-            # val_loss = evaluate(model, val_dataloader, loss_fn)
             val_preds, val_labels = eval_metric(model, val_dataloader)
             f1 = f1_score(val_labels, val_preds)
             early_stop = stopper.step(f1, model)
-            # logger.info(f'Validation loss: {round(val_loss, 4)}')
             logger.info(f'Validation F1-score: {round(f1, 4)}')
             if early_stop:
                 logger.info('Early stopped!')

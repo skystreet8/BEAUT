@@ -22,7 +22,6 @@ def predict(model, input_repr):
 if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('-f', '--fasta', type=str, required=True, help='Path to the FASTA file')
-    parser.add_argument('-th', '--thresh', type=float, default=0.5)
     args = parser.parse_args().__dict__
     test_dataset = SequenceTestDataset(f'../data/{args["fasta"]}_embeddings.pt')
     test_dataloader = DataLoader(test_dataset, batch_size=128)

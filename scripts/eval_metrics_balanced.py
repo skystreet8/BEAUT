@@ -7,7 +7,7 @@ import torch
 from torch.utils.data import DataLoader
 from models import DNNPredictor
 from dataset import SequenceTestDataset
-from sklearn.metrics import average_precision_score, f1_score, matthews_corrcoef, precision_score, recall_score,\
+from sklearn.metrics import f1_score, matthews_corrcoef, precision_score, recall_score,\
     confusion_matrix, fbeta_score, auc, precision_recall_curve
 logger = logging.getLogger('Test')
 logger.addHandler(logging.StreamHandler())
@@ -80,12 +80,10 @@ if __name__ == '__main__':
             f2_scores.append(f2score)
             mcc = round(matthews_corrcoef(test_labels, test_predictions), 4)
             mccs.append(mcc)
-            conf_mat = confusion_matrix(test_labels, test_predictions)
-            conf_mats.append(list(conf_mat))
     average_auprs = [round(np.mean(auprs[i * 10:(i + 1) * 10]), 4) for i in range(5)]
     best_model_idx = np.argmax(average_auprs) + 1
     shutil.copy(f'../models/BEAUT_aug_fold_{best_model_idx}.pth', '../models/BEAUT_aug.pth')
     df = pd.DataFrame(data=None)
     df = df.assign(fold=folds, test_set_id=test_set_ids, AUPR=auprs, Recall=recs, Precision=precs, F1_score=f1_scores,
-                   F2_score=f2_scores, MCC=mccs, Confusion_matrix=conf_mats)
+                   F2_score=f2_scores, MCC=mccs)
     df.to_csv('../data/BEAUT_aug_eval_metrics_balanced.csv', index=False)
