@@ -69,9 +69,9 @@ remaining samples form the training set.
 
 Negative samples that are not sampled for training & validation are all placed
 in the test set. As this would cause a huge data imbalance in the test set compared to the validation set and might
-affect model evaluation, we separately build 10 additional test sets with the same positive test samples and the same
+affect model evaluation, we build 10 additional test sets with the same positive test samples and the same
 positive sample ratio to the validation set which is 1:5. The negative samples in each test set are randomly sampled
-and have no overlap. Evaluation will be performed on both the full test set and the 5 re-balanced test sets.
+and have no overlap. Evaluation will be performed on the 10 balanced test sets.
 
 The data sets used to train
 our own models are provided in the `data` folder with the name `sequence_dataset_v3_substrate_pocket_aug.csv`.
