@@ -19,6 +19,9 @@ Requirements:
 - biotite
 - fair-esm >= 2
 - DIAMOND 2.1.9.163
+
+If this is your first time installing the nltk package, run the `download_nltk_resources.py` script to get necessary
+resources for the package. 
 ## Training the Aug model
 `cd scripts`
 ### Step 1
@@ -66,7 +69,7 @@ remaining samples form the training set.
 
 Negative samples that are not sampled for training & validation are all placed
 in the test set. As this would cause a huge data imbalance in the test set compared to the validation set and might
-affect model evaluation, we separately build 5 additional test sets with the same positive test samples and the same
+affect model evaluation, we separately build 10 additional test sets with the same positive test samples and the same
 positive sample ratio to the validation set which is 1:5. The negative samples in each test set are randomly sampled
 and have no overlap. Evaluation will be performed on both the full test set and the 5 re-balanced test sets.
 
@@ -78,13 +81,11 @@ which covers all negative sequences and the 2383 augmented positive sequences.
 
 We provided the trained models in the `models` folder.
 
-Run `python eval_metrics.py` to calculate the evaluation metrics for the Aug model.
-The results will be saved at `../data/BEAUT_aug_eval_metrics.csv`.
+Run `python generate_balanced_test_sets.py` to generate 10 balanced test sets for model evaluation. 
+Run `python eval_metrics_balanced.py` to calculate the evaluation metrics for the Aug model on the balanced test sets.
+The results will be saved at `../data/BEAUT_aug_eval_metrics_balanced.csv`.
 We used the model with the best AUPR value in our study. The model was
 copied and renamed `BEAUT_aug.pth`.
-
-To evaluate the best model with balanced test sets(as described in Step 1), run `python generate_balanced_test_sets.py`
-and then run `python eval_metrics_balanced.py`. The results on 5 balanced test sets are saved at `../data/BEAUT_aug_eval_metrics_balanced.csv`.
 ## Model usage
 You can use `test_case.py` to test a single protein sequence.
 
@@ -140,5 +141,6 @@ sequence network, run `python process_xgmml_graph.py` to extract clusters.
 Run `python process_ssn_clusters.py` to analyze
 the EC constitution for each cluster and assign cluster indexes to sequences.
 
-The network file is precomputed and provided. This step requires at least 64 GB memory
-and can take a long time to run.
+The network file is precomputed and provided at `../data/PRJNA28331_aug/PRJNA28331_aug_alnscore60_ssn_clusters_full/PRJNA28331_aug_alnscore60_full_ssn.xgmml.tar.gz`.
+Please unzip the file before running `process_xgmml_graph.py`. 
+This step requires at least 64 GB memory and can take a long time to run.
