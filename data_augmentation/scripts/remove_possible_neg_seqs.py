@@ -18,4 +18,4 @@ for o in orgs:
     remove_hs = set(df['query'].values.tolist())
     headers = list(set(headers) - remove_hs)
     seqs = [h2s[h] for h in headers]
-    SaveFastaFile(f'../data/BA_transformers/{o}_filtered_1.fasta', headers, seqs)
+    SaveFastaFile(f'../data/BA_transformers/{o}_filtered.fasta', headers, seqs)
