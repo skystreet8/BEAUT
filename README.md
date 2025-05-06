@@ -59,19 +59,26 @@ Use DIAMOND to calculate the pairwise sequence identities for the 2383 augmented
 Run `python generate_datasets_aug.py`
 to generate your data sets for model training. This first clusters the augmented positive samples according to their
 pairwise sequence identities with a threshold of 30% and randomly samples a number of clusters to place them
-in the test set. The total number of sequences from the clusters is 10% of the number of postive samples. Note
-that if a cluster fully consists of primary positive samples, then this cluster will be sampled prior to other clusters.
+in the test set. The total number of sequences from the clusters for testing is 10% of the number of positive samples. 
 The remaining positive samples are used to build the 5-fold cross-validation data sets. The sequence lengths of these
 samples are calculated first and then the samples are divided into groups of different length ranges. For each group,
 negative samples 5 times the size of the group whose lengths are within the same range are sampled and added to the
 group. In each fold of cross-validation, we selected 1/5 samples from each group to form the validation set and the
 remaining samples form the training set. 
 
-Negative samples that are not sampled for training & validation are all placed
-in the test set. As this would cause a huge data imbalance in the test set compared to the validation set and might
-affect model evaluation, we build 10 additional test sets with the same positive test samples and the same
-positive sample ratio to the validation set which is 1:5. The negative samples in each test set are randomly sampled
-and have no overlap. Evaluation will be performed on the 10 balanced test sets.
+Negative samples that are not sampled for training & validation are considered for testing. We only considered negative
+samples that have &#x003C; 30% sequence identity with those used by training & validation sets. 
+To avoid data imbalance in the test set, we sampled negative samples 5 times the number of positive samples in the 
+test set, so that the test set had the same positive sample ratio as the validation set which is 1:5.
+
+Run the following commands to calculate sequence identities between the negative samples considered for testing and
+those used in training & validation sets.
+
+`./diamond makedb --in ../data/non_test_set_neg_all.fasta -d ../data/non_test_set_neg_all`
+
+`./diamond blastp -q ../data/test_set_neg_all.fasta -d ../data/non_test_set_neg_all -o ../data/test_set_neg_against_non_test_neg_blast.tsv --ultra-sensitive -k 0`
+
+Run `python generate_balanced_test_set.py` to generate the test set for evaluation.
 
 The data sets used to train
 our own models are provided in the `data` folder with the name `sequence_dataset_v3_substrate_pocket_aug.csv`.
@@ -81,10 +88,9 @@ which covers all negative sequences and the 2383 augmented positive sequences.
 
 We provided the trained models in the `models` folder.
 
-Run `python generate_balanced_test_sets.py` to generate 10 balanced test sets for model evaluation. 
-Run `python eval_metrics_balanced.py` to calculate the evaluation metrics for the Aug model on the balanced test sets.
+Run `python eval_metrics_balanced.py` to calculate the evaluation metrics for the Aug model on the balanced test set.
 The results will be saved at `../data/BEAUT_aug_eval_metrics_balanced.csv`.
-We used the model with the best average AUPR value in our study. The model was
+We used the model with the best AUPR value in our study. The model was
 copied and renamed `BEAUT_aug.pth`.
 ## Model usage
 You can use `test_case.py` to test a single protein sequence.

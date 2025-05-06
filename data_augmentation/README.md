@@ -13,8 +13,7 @@ Run DIAMOND with the following commands:
 
 `./diamond makedb --in ../../data/negative_seqs_v2.fasta -d ../data/neg_seqs_v2`
 
-`./diamond blastp -q ../data/BA_transformers/<organism>_filtered_by_annotation.fasta -d ../data/neg_seqs_v2 
--o ../data/BA_transformers/<organism>_against_neg_seqs_v2_blast.tsv --id 50`
+`./diamond blastp -q ../data/BA_transformers/<organism>_filtered_by_annotation.fasta -d ../data/neg_seqs_v2 -o ../data/BA_transformers/<organism>_against_neg_seqs_v2_blast.tsv --id 50`
 
 The available organisms are `B_Ado, B_Xyl, C_Com, C_M62_1, H_Fil, R_Gna, S_Inf`.
 
