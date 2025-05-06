@@ -42,48 +42,47 @@ if __name__ == '__main__':
     threshold = 0.5
     auprs = []
     f1_scores = []
-    f2_scores = []
     mccs = []
     precs = []
     recs = []
     conf_mats = []
     folds = []
-    test_set_ids = []
     for fold in tqdm(range(1, 6), total=5):
         model = DNNPredictor(1280, [256, 32])
         model.load_state_dict(torch.load(f'../models/BEAUT_aug_fold_{fold}.pth')['model_state_dict'])
         model.to(DEVICE)
-        results = {}
-        for i in range(1, 11):
-            folds.append(fold)
-            test_set_ids.append(i)
-            test_df = pd.read_csv(f'../data/test_set_sample_{i}.csv')
-            header2label = {t[1]: t[2] for t in test_df.itertuples()}
-            test_dataset = SequenceTestDataset(f'../data/test_set_sample_{i}_embeddings.pt')
-            test_dataloader = DataLoader(test_dataset, batch_size=128)
-            test_probs, test_predictions = predict(model, test_dataloader, threshold=threshold)
-            test_headers = test_dataset.headers
-            test_labels = [header2label[h] for h in test_headers]
-            pos_probs = [t[1] for t in test_probs]
-            precisions, recalls, _ = precision_recall_curve(test_labels, pos_probs)
-            aupr = round(auc(recalls, precisions), 4)
-            auprs.append(aupr)
-            test_predictions = np.array(test_predictions)
-            test_labels = np.array(test_labels)
-            rec = round(recall_score(test_labels, test_predictions), 4)
-            recs.append(rec)
-            prec = round(precision_score(test_labels, test_predictions), 4)
-            precs.append(prec)
-            f1score = round(f1_score(test_labels, test_predictions), 4)
-            f1_scores.append(f1score)
-            f2score = round(fbeta_score(test_labels, test_predictions, beta=2), 4)
-            f2_scores.append(f2score)
-            mcc = round(matthews_corrcoef(test_labels, test_predictions), 4)
-            mccs.append(mcc)
-    average_auprs = [round(np.mean(auprs[i * 10:(i + 1) * 10]), 4) for i in range(5)]
-    best_model_idx = np.argmax(average_auprs) + 1
-    shutil.copy(f'../models/BEAUT_aug_fold_{best_model_idx}.pth', '../models/BEAUT_aug.pth')
+        folds.append(fold)
+        test_df = pd.read_csv(f'../data/test_set_balanced.csv')
+        header2label = {t[1]: t[2] for t in test_df.itertuples()}
+        test_dataset = SequenceTestDataset(f'../data/test_set_balanced_embeddings.pt')
+        test_dataloader = DataLoader(test_dataset, batch_size=128)
+        test_probs, test_predictions = predict(model, test_dataloader, threshold=threshold)
+        test_headers = test_dataset.headers
+        test_labels = [header2label[h] for h in test_headers]
+        pos_probs = [t[1] for t in test_probs]
+        precisions, recalls, _ = precision_recall_curve(test_labels, pos_probs)
+        aupr = round(auc(recalls, precisions), 4)
+        auprs.append(aupr)
+        test_predictions = np.array(test_predictions)
+        test_labels = np.array(test_labels)
+        rec = round(recall_score(test_labels, test_predictions), 4)
+        recs.append(rec)
+        prec = round(precision_score(test_labels, test_predictions), 4)
+        precs.append(prec)
+        f1score = round(f1_score(test_labels, test_predictions), 4)
+        f1_scores.append(f1score)
+        mcc = round(matthews_corrcoef(test_labels, test_predictions), 4)
+        mccs.append(mcc)
+    folds.append('Average')
+    auprs.append(round(np.mean(auprs), 4))
+    recs.append(round(np.mean(recs), 4))
+    precs.append(round(np.mean(precs), 4))
+    f1_scores.append(round(np.mean(f1_scores), 4))
+    mccs.append(round(np.mean(mccs), 4))
+    best_model_idx = np.argmax(auprs) + 1
+    print(f'Best model: {best_model_idx}')
+    # shutil.copy(f'../models/BEAUT_aug_fold_{best_model_idx}.pth', '../models/BEAUT_aug.pth')
     df = pd.DataFrame(data=None)
-    df = df.assign(fold=folds, test_set_id=test_set_ids, AUPR=auprs, Recall=recs, Precision=precs, F1_score=f1_scores,
-                   F2_score=f2_scores, MCC=mccs)
+    df = df.assign(fold=folds, AUPR=auprs, Recall=recs, Precision=precs, F1_score=f1_scores,
+                   MCC=mccs)
     df.to_csv('../data/BEAUT_aug_eval_metrics_balanced.csv', index=False)
