@@ -10,7 +10,7 @@ for o in orgs:
                             'qend', 'tstart', 'tend', 'e_value', 'bits']
                      )
     df = df.query('bits >= 50').copy()
-    headers, seqs = ReformatFastaFile(f'../data/BA_transformers/{o}.faa')
+    headers, seqs = ReformatFastaFile(f'../data/BA_transformers/{o}_filtered_by_annotation.fasta')
     h2s = {h: s for h, s in zip(headers, seqs)}
     s2h = {s: h for h, s in zip(headers, seqs)}
     seqs = [s for s in seqs if 157 <= len(s) <= 1074]
@@ -18,4 +18,4 @@ for o in orgs:
     remove_hs = set(df['query'].values.tolist())
     headers = list(set(headers) - remove_hs)
     seqs = [h2s[h] for h in headers]
-    SaveFastaFile(f'../data/BA_transformers/{o}_filtered_neg_seqs.fasta', headers, seqs)
+    SaveFastaFile(f'../data/BA_transformers/{o}_filtered_1.fasta', headers, seqs)
