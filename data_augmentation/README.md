@@ -1,23 +1,25 @@
 # Producing augmentation samples based on substrate pocket similarity
 First, `cd ./data_augmentation/scripts`.
 ## 1. Processing genome sequences from selected organisms
-First, we remove possible negative sequences using BLAST with the genome sequences as query and our negative sequences as target.
+First, run `python filter_non_enzymes_1.py` to remove non-enzymes and possible enzymes involving macromolecules like
+proteins, nucleic acids as substrates. This would produce 7 `*_filtered_by_annotation.fasta` files and 
+7 `*_filtered_with_annotations.csv` files. The fasta files are sequences contributed by each organism and the CSV files
+are the corresponding function annotations from EggNOG-mapper.
+
+Then, we remove possible negative sequences using BLAST with the genome sequences as query and our negative sequences as target.
 Run DIAMOND with the following commands:
 
 `ln -s ../../scripts/diamond ./diamond`
 
 `./diamond makedb --in ../../data/negative_seqs_v2.fasta -d ../data/neg_seqs_v2`
 
-`./diamond blastp -q ../data/BA_transformers/<organism>.faa -d ../data/neg_seqs_v2 
+`./diamond blastp -q ../data/BA_transformers/<organism>_filtered_by_annotation.fasta -d ../data/neg_seqs_v2 
 -o ../data/BA_transformers/<organism>_against_neg_seqs_v2_blast.tsv --id 50`
 
 The available organisms are `B_Ado, B_Xyl, C_Com, C_M62_1, H_Fil, R_Gna, S_Inf`.
 
 Then run `python remove_possible_neg_seqs.py` to remove sequences that have at least one hit
 with identity &#8805; 50 and bitscore &#8805; 50 to the negative sequences. 
-
-Run `python filter_non_enzymes_1.py`. This would produce 7 `*_filtered.fasta` files and 7 `*_filtered_with_annotations.csv` files.
-The fasta files are sequences contributed by each organism and the CSV files are the corresponding function annotations from EggNOG-mapper.
 ## 2. Filter PDB files by pLDDT
 Run `python get_high_plddt_structs.py -o <organism>` to filter PDB files of the proteins from selected sequences according to
 pLDDT. The available organisms are `B_Ado, B_Xyl, C_Com, C_M62_1, H_Fil, R_Gna, S_Inf`.
