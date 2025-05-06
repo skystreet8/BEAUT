@@ -2,7 +2,7 @@ import pandas as pd
 from ec_utils import eval_ec, sort_ecs
 
 ec_dfs = []
-for i in range(1, 13):
+for i in range(1, 12):
     ec_df = pd.read_csv(
         f'../data/PRJNA28331_aug/PRJNA28331_filtered_proteins_positive_results_aug_filtered_by_annotation_pt{i}_maxsep.csv',
         names=['header', 'pred_1', 'pred_2', 'pred_3', 'pred_4', 'pred_5'])
@@ -12,7 +12,7 @@ for i in range(1, 13):
     ec_dfs.append(ec_df)
 merged_ec_df = pd.concat(ec_dfs, ignore_index=True)
 dfs = []
-for i in range(1, 13):
+for i in range(1, 12):
     df = pd.read_csv(
         f'../data/PRJNA28331_aug/PRJNA28331_filtered_proteins_positive_results_aug_filtered_by_annotation_pt{i}.csv')
     dfs.append(df)
