@@ -1,4 +1,8 @@
 # BEAUT
+Notice: The code is presented only for reproducibility purposes. To use BEAUT on your own sequences or 
+query the Human Gut microbe Bile acid Metabolic Enzyme data set predicted by BEAUT,
+you can use our [web server](https://beaut.bjmu.edu.cn).
+
 Code for "Identification of novel gut microbial bile acid metabolic enzymes
 via a large-scale Al-assisted pipeline".
 
@@ -35,22 +39,27 @@ sequence idenitites of the 469 primary positive sequences. Place your DIAMOND ex
 
 Then run `python select_unique_seqs.py -f pos_seqs_v3`. This first processes the 469 primary positive sequences
 (`../data/positive_seqs_v3.fasta`) and produces 151 non-redundant primary positive sequences with maximum pairwise
-identity &#60; 90% (`../data/positive_seqs_v3_unique.fasta`). Also, these sequences are merged with the augmentation
-sequences to produce 2392 augmented positive sequences in total (`../data/positive_seqs_v3_substrate_pocket_sim_aug_v3.fasta`).
+identity &#60; 90% (`../data/positive_seqs_v3_unique.fasta`). To reproduce our results, use the `positive_seqs_v3_unique.fasta`
+file provided in our Zenodo archive. 
+
+Then, please follow the data augmentation workflow described in  `../data_augmentation/README.md`. After finishing
+data augmentation, copy the `positive_seqs_v3_substrate_pocket_sim_aug_v3.fasta` from `../data_augmentation/data/` 
+to `../data/`.
+
 After calculating pairwise sequence identities of these augmented positive sequences with DIAMOND, 
 
 `./diamond makedb --in ../data/positive_seqs_v3_substrate_pocket_sim_aug_v3.fasta -d ../data/pos_seqs_v3_sub_pok_sim_aug_v3`
 
 `./diamond blastp -q ../data/positive_seqs_v3_substrate_pocket_sim_aug_v3.fasta -d ../data/pos_seqs_v3_sub_pok_sim_aug_v3 -o ../data/pos_seqs_v3_sub_pok_sim_aug_v3_self_blast.tsv --ultra-sensitive -k 0`
 
-run `python select_unique_seqs.py -f pos_seqs_v3_sub_pok_sim_aug_v3` to remove redundant sequences from the 2392 augmented
+run `python select_unique_seqs.py -f pos_seqs_v3_sub_pok_sim_aug_v3` to remove redundant sequences from the 2481 augmented
 positive sequences (`../data/positive_seqs_v3_substrate_pocket_sim_aug_v3_unique.fasta`).
-This should give 2383 sequences in total which will be used to generate the data sets.
+This should give 2472 sequences in total which will be used to generate the data sets.
 
 As this step could be random, the files generated in developing the model are provided in the data archive. You can
 directly use the archived files to reproduce our results. 
 ### Step 2
-Use DIAMOND to calculate the pairwise sequence identities for the 2383 augmented positive sequences:
+Use DIAMOND to calculate the pairwise sequence identities for the 2472 augmented positive sequences:
 
 `./diamond makedb --in ../data/positive_seqs_v3_substrate_pocket_sim_aug_v3_unique.fasta -d ../data/pos_seqs_v3_sub_pok_sim_aug_v3_uniq`
 
@@ -84,7 +93,7 @@ The data sets used to train
 our own models are provided in the `data` folder with the name `sequence_dataset_v3_substrate_pocket_aug.csv`.
 ### Step 3
 Run `python Train.py` to train the Aug model. This step requires the sequence embedding data `../data/seq_embeddings_v3_substrate_pocket_aug.pt`
-which covers all negative sequences and the 2383 augmented positive sequences. 
+which covers all negative sequences and the 2472 augmented positive sequences. 
 
 We provided the trained models in the `models` folder.
 
