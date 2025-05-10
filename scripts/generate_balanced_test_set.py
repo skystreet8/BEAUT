@@ -2,7 +2,7 @@ import pandas as pd
 import torch
 import random
 
-random.seed(1)
+random.seed(1001)
 df = pd.read_csv('../data/sequence_dataset_v3_substrate_pocket_aug.csv')
 test_df = df.query('dataset_fold_1 == "test"').copy()
 for i in range(1, 6):
