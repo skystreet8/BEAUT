@@ -37,7 +37,6 @@ def divide_k_fold(items, K):
     return folds
 
 
-random.seed(1001)
 NUM_FOLDS = 5
 TEST_RATIO = 0.1
 pos_headers, pos_seqs = ReadFastaFile('../data/positive_seqs_v3_substrate_pocket_sim_aug_v3_unique.fasta')
