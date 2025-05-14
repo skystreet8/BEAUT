@@ -7,7 +7,7 @@ Code for "Identification of novel gut microbial bile acid metabolic enzymes
 via a large-scale Al-assisted pipeline".
 
 The necessary data for running and reproducing BEAUT are deposited at Zenodo.
-Download these files from [here](https://zenodo.org/records/14233530?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjM4ZjZlNWVhLTBlOTctNDE2Yi04MjZiLTBjZGMwOTI4YjRiYyIsImRhdGEiOnt9LCJyYW5kb20iOiI5ODg4OGJiMzAyODEyZjE4YjAyZDA0N2M3ZWY1ZDYxOSJ9.FBmwdQury2JgkTvqs2h_TxGV4MTWB-23RmsisTbLeIDCMygVEHpSyCuGzeQdzkQXDgf6i2Ebg66-bdhDzx2U0g)
+Download these files from [here](https://zenodo.org/records/15388149?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjkzN2M0NDkwLTQ3ZGQtNGViZC1iMzk2LThiMzM3N2FjZDBiMyIsImRhdGEiOnt9LCJyYW5kb20iOiIyNTUyODAwYTE4MzQxMWU0MmFlOTZhOWU5NWQwZDYxZCJ9.iSU6brHM0Tw2YWGOQlcr-zrZxR9UgDdV6ZdmdntvOSZ-2c8t93b3gOpUyS1JRmaSS4YusV0c88gSDH_dYrQy-w)
 and follow the instructions on Zenodo to place 
 the data folders under proper locations.
 ## Environment configuration
