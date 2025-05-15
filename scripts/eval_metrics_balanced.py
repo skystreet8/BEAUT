@@ -81,7 +81,7 @@ if __name__ == '__main__':
     mccs.append(round(np.mean(mccs), 4))
     best_model_idx = np.argmax(auprs) + 1
     print(f'Best model: {best_model_idx}')
-    # shutil.copy(f'../models/BEAUT_aug_fold_{best_model_idx}.pth', '../models/BEAUT_aug.pth')
+    shutil.copy(f'../models/BEAUT_aug_fold_{best_model_idx}.pth', '../models/BEAUT_aug.pth')
     df = pd.DataFrame(data=None)
     df = df.assign(fold=folds, AUPR=auprs, Recall=recs, Precision=precs, F1_score=f1_scores,
                    MCC=mccs)
