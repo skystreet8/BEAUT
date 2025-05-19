@@ -86,7 +86,8 @@ This will give 14 files containing the pairwise pocket similarity
 between the query pockets and the reference pockets in the `results` folder.
 
 As the source code of PocketMatch was last updated 10 years ago, the compiled executables might not work on recent
-Linux systems. If this happens, you can use the similarity calculation results here to continue. The file downloaded was
+Linux systems. If this happens, you can use the similarity calculation results [here](https://zenodo.org/records/15388149?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjkzN2M0NDkwLTQ3ZGQtNGViZC1iMzk2LThiMzM3N2FjZDBiMyIsImRhdGEiOnt9LCJyYW5kb20iOiIyNTUyODAwYTE4MzQxMWU0MmFlOTZhOWU5NWQwZDYxZCJ9.iSU6brHM0Tw2YWGOQlcr-zrZxR9UgDdV6ZdmdntvOSZ-2c8t93b3gOpUyS1JRmaSS4YusV0c88gSDH_dYrQy-w)
+to continue. The file downloaded was
 an archive of the `results` folder as mentioned above after the correct calculations.
 ## 6. Analyze pocket similarity and collect augmentation data
 Run `python process_pocketmatch_outputs.py`.
