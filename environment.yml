@@ -4,10 +4,10 @@ channels:
   - https://repo.anaconda.com/pkgs/main
   - https://repo.anaconda.com/pkgs/r
 dependencies:
-  - python=3.13
+  - python=3.12
   - pip
   - networkx
-  - pandas
+  - pandas=2.2.1
   - scipy
   - scikit-learn
   - tqdm
