@@ -14,7 +14,7 @@ the data folders under proper locations.
 Run `conda env create -f environment.yml` to create the environment needed for running the code.
 Activate the environment with `conda activate beaut`.
 
-We used DIAMOND version 2.1.9.163. Please download this version of DIAMOND here.
+We used DIAMOND version 2.1.9.163. Please download this version of DIAMOND [here](https://github.com/bbuchfink/diamond/releases/tag/v2.1.9).
 
 If this is your first time installing the nltk package, run the `download_nltk_resources.py` script to get necessary
 resources for the package. 
@@ -124,7 +124,7 @@ Run `python process_bulk_predictions.py` to postprocess
 the screening results. Sequences whose scores are above the threshold
 are selected and are assigned with organisms.
 ### Step 3
-Use EggNOG-mapper to get function annotations for the positive sequences.
+Use [EggNOG-mapper](http://eggnog-mapper.embl.de/) to get function annotations for the positive sequences.
 We provided the annotation results in the corresponding folders.
 Run `filter_non_enzymes_2.py` to filter out non-enzymes
 from previous positive sequences.
@@ -144,8 +144,7 @@ per organism and the number of positive sequences under each EC category per org
 Run `python ec_stat.py` to analyze the total number of positive sequences
 under each EC category. KEGG descriptions for every EC category is provided. 
 ### Step 6
-After sending the filtered sequences to <a href="https://efi.igb.illinois.edu/efi-est/index.php" target="_blank" rel="noopener noreferrer">EFI-EST</a>
-and downloading the clustered
+After sending the filtered sequences to [EFI-EST](https://efi.igb.illinois.edu/efi-est/index.php) and downloading the clustered
 sequence network, run `python process_xgmml_graph.py` to extract clusters.
 Run `python process_ssn_clusters.py` to analyze
 the EC constitution for each cluster and assign cluster indexes to sequences.
