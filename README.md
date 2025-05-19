@@ -11,18 +11,10 @@ Download these files from [here](https://zenodo.org/records/15388149?preview=1&t
 and follow the instructions on Zenodo to place 
 the data folders under proper locations.
 ## Environment configuration
-Requirements:
+Run `conda env create -f environment.yml` to create the environment needed for running the code.
+Activate the environment with `conda activate beaut`.
 
-- Python 3.9
-- PyTorch 1.13.1
-- nltk
-- pandas
-- networkx
-- scikit-learn
-- tqdm
-- biotite
-- fair-esm >= 2
-- DIAMOND 2.1.9.163
+We used DIAMOND version 2.1.9.163. Please download this version of DIAMOND here.
 
 If this is your first time installing the nltk package, run the `download_nltk_resources.py` script to get necessary
 resources for the package. 
@@ -30,7 +22,7 @@ resources for the package.
 `cd scripts`
 ### Step 1
 This step removes redundant sequences at 90% sequence identity. First you should use DIAMOND to calculate the pairwise
-sequence idenitites of the 469 primary positive sequences. Place your DIAMOND executive under `scripts` folder and run
+sequence identities of the 469 primary positive sequences. Place your DIAMOND executable under `scripts` folder and run
 
 `./diamond makedb --in ../data/positive_seqs_v3.fasta -d ../data/pos_seqs_v3`
 
@@ -152,7 +144,8 @@ per organism and the number of positive sequences under each EC category per org
 Run `python ec_stat.py` to analyze the total number of positive sequences
 under each EC category. KEGG descriptions for every EC category is provided. 
 ### Step 6
-After sending the filtered sequences to EFI-EST and downloading the clustered
+After sending the filtered sequences to `<a href="https://efi.igb.illinois.edu/efi-est/index.php" target="_blank">EFI-EST</a>`
+and downloading the clustered
 sequence network, run `python process_xgmml_graph.py` to extract clusters.
 Run `python process_ssn_clusters.py` to analyze
 the EC constitution for each cluster and assign cluster indexes to sequences.
