@@ -12,7 +12,10 @@ and follow the instructions on Zenodo to place
 the data folders under proper locations.
 ## Environment configuration
 Run `conda env create -f environment.yml` to create the environment needed for running the code.
-Activate the environment with `conda activate beaut`.
+Activate the environment with `conda activate beaut`. 
+
+The CUDA version required for the environment is 12.6. 
+If you have different versions of CUDA, please find an appropriate version of PyTorch [here](https://pytorch.org/get-started/previous-versions/). 
 
 We used DIAMOND version 2.1.9.163. Please download this version of DIAMOND [here](https://github.com/bbuchfink/diamond/releases/tag/v2.1.9).
 
@@ -67,13 +70,20 @@ negative samples 5 times the size of the group whose lengths are within the same
 group. In each fold of cross-validation, we selected 1/5 samples from each group to form the validation set and the
 remaining samples form the training set. 
 
+The data sets used to train
+our own models are provided in the `data` folder with the name `sequence_dataset_v3_substrate_pocket_aug.csv`. Be sure
+to use this data for reproducing our results.
+
 Negative samples that are not sampled for training & validation are considered for testing. We only considered negative
 samples that have &#x003C; 30% sequence identity with those used by training & validation sets. 
 To avoid data imbalance in the test set, we sampled negative samples 5 times the number of positive samples in the 
 test set, so that the test set had the same positive sample ratio as the validation set which is 1:5.
 
+First, be sure to use the two files `non_test_set_neg_all.fasta` and `test_set_neg_all.fasta` in the following calculations.
+The files were provided in the `data` folder.
+
 Run the following commands to calculate sequence identities between the negative samples considered for testing and
-those used in training & validation sets.
+those used in training & validation sets. 
 
 `./diamond makedb --in ../data/non_test_set_neg_all.fasta -d ../data/non_test_set_neg_all`
 
@@ -81,8 +91,7 @@ those used in training & validation sets.
 
 Run `python generate_balanced_test_set.py` to generate the test set for evaluation.
 
-The data sets used to train
-our own models are provided in the `data` folder with the name `sequence_dataset_v3_substrate_pocket_aug.csv`.
+
 ### Step 3
 Run `python Train.py` to train the Aug model. This step requires the sequence embedding data `../data/seq_embeddings_v3_substrate_pocket_aug.pt`
 which covers all negative sequences and the 2472 augmented positive sequences. 
