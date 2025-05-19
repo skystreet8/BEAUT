@@ -53,7 +53,12 @@ Copy the folders containing the query pockets to `../PocketMatch/cabbage-file_ma
 
 `cp -r ../data/BA_transformers/high_plddt_pockets_rescue_filtered/ ../PocketMatch/cabbage-file_maker/BA_transformer_pockets/`
 
-Then `cd ../PocketMatch/cabbage-file_maker`.
+Then `cd ../PocketMatch/cabbage-file_maker`. Copy the reference pockets to `./` and decompress:
+
+`cp ../../data/pos_v3_structs_high_index_sub_pockets.tar.gz ./`
+
+`tar -xzf pos_v3_structs_high_index_sub_pockets.tar.gz`
+
 Run `bash ./Step0-cabbage.sh pos_v3_structs_high_index_sub_pockets/` to make the
 cabbage file for the reference pockets. Run `mv outfile.cabbage ../cabbage_files/pos_v3_structs_high_index_sub_pockets.cabbage`
 immediately. Otherwise, the next time you run `bash ./Step0-cabbage.sh` will 
