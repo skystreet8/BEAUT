@@ -84,6 +84,10 @@ Run `chmod +x ./Step3-PM_typeB` to avoid permission errors.
 Run `bash calc_pok_sim_BA_transformers_against_pos.sh`.
 This will give 14 files containing the pairwise pocket similarity
 between the query pockets and the reference pockets in the `results` folder.
+
+As the source code of PocketMatch was last updated 10 years ago, the compiled executables might not work on recent
+Linux systems. If this happens, you can use the similarity calculation results here to continue. The file downloaded was
+an archive of the `results` folder as mentioned above after the correct calculations.
 ## 6. Analyze pocket similarity and collect augmentation data
 Run `python process_pocketmatch_outputs.py`.
 This will produce the augmentation samples as `substrate_pocket_sim_aug_v3.fasta` at `../data/`.
