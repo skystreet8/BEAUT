@@ -144,7 +144,7 @@ per organism and the number of positive sequences under each EC category per org
 Run `python ec_stat.py` to analyze the total number of positive sequences
 under each EC category. KEGG descriptions for every EC category is provided. 
 ### Step 6
-After sending the filtered sequences to <a href="https://efi.igb.illinois.edu/efi-est/index.php" target="_blank" rel="noopener noreferrer"git >EFI-EST</a>
+After sending the filtered sequences to <a href="https://efi.igb.illinois.edu/efi-est/index.php" target="_blank" rel="noopener noreferrer">EFI-EST</a>
 and downloading the clustered
 sequence network, run `python process_xgmml_graph.py` to extract clusters.
 Run `python process_ssn_clusters.py` to analyze
