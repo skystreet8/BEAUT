@@ -6,10 +6,6 @@ you can use our [web server](https://beaut.bjmu.edu.cn).
 Code for "Identification of novel gut microbial bile acid metabolic enzymes
 via a large-scale Al-assisted pipeline".
 
-The necessary data for running and reproducing BEAUT are deposited at Zenodo.
-Download these files from [here](https://zenodo.org/records/15388149?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjkzN2M0NDkwLTQ3ZGQtNGViZC1iMzk2LThiMzM3N2FjZDBiMyIsImRhdGEiOnt9LCJyYW5kb20iOiIyNTUyODAwYTE4MzQxMWU0MmFlOTZhOWU5NWQwZDYxZCJ9.iSU6brHM0Tw2YWGOQlcr-zrZxR9UgDdV6ZdmdntvOSZ-2c8t93b3gOpUyS1JRmaSS4YusV0c88gSDH_dYrQy-w)
-and follow the instructions on Zenodo to place 
-the data folders under proper locations.
 ## Environment configuration
 Run `conda env create -f environment.yml` to create the environment needed for running the code.
 Activate the environment with `conda activate beaut`. 
@@ -21,6 +17,14 @@ We used DIAMOND version 2.1.9.163. Please download this version of DIAMOND [here
 
 If this is your first time installing the nltk package, run the `download_nltk_resources.py` script to get necessary
 resources for the package. 
+## Data preparation
+The necessary data for running and reproducing BEAUT are deposited at Zenodo.
+Download these files from [here](https://zenodo.org/records/15388149?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjkzN2M0NDkwLTQ3ZGQtNGViZC1iMzk2LThiMzM3N2FjZDBiMyIsImRhdGEiOnt9LCJyYW5kb20iOiIyNTUyODAwYTE4MzQxMWU0MmFlOTZhOWU5NWQwZDYxZCJ9.iSU6brHM0Tw2YWGOQlcr-zrZxR9UgDdV6ZdmdntvOSZ-2c8t93b3gOpUyS1JRmaSS4YusV0c88gSDH_dYrQy-w).
+After decompressing the file, place the `data/` folder under the root directory `BEAUT/` and place the `data_augmentation_data/` folder under `BEAUT/data_augmentation/`.
+Then, rename the `BEAUT/data_augmentation/data_augmentation_data/` directory to `BEAUT/data_augmentation/data/` which is consistent with the code.
+
+Place the `results.tar.gz` file under the `BEAUT/data_augmentation/PocketMatch/` directory and decompress. It contains the 
+precomputed pocket similarity results needed for data augmentation. 
 ## Training the Aug model
 `cd scripts`
 ### Step 1

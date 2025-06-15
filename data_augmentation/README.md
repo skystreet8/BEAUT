@@ -25,6 +25,7 @@ pLDDT. The available organisms are `B_Ado, B_Xyl, C_Com, C_M62_1, H_Fil, R_Gna, 
 ## 3. Extract pockets using Cavity
 Run `cd ..`.
 
+The Cavity program can be provided upon reasonable request. 
 Place your Cavity program or create a soft link at `./data_augmentation`.
 Run `bash extract_pockets_high_plddt_BA_transformer_structs.sh <organism>`
 and `bash extract_pockets_high_plddt_BA_transformer_structs_rescue.sh <organism>`
@@ -33,7 +34,9 @@ of the proteins from selected organisms.
 The available organisms are the same as above.
 
 As this step requires very long time, precomputed pockets(gzipped files) are provided 
-in the `data/BA_transformers/` folder. 
+in the `data/BA_transformers/` folder. We have a [web server](http://pkumdl.cn:8000/cavityplus/index.php#/computation)
+running the Cavity program and can exactly reproduce all pockets from the structure files.
+The Cavity program can be provided upon reasonable request. 
 ## 4. Filter out the query pockets from all pockets extracted from protein structures of the 7 selected organisms
 Run `python filter_pockets.py -o <organism>` and `python filter_pockets.py -o <organism> -r`.
 This would extract query pockets with volumes of 1000-5500 &#x00C5;^3 and pocket indexes &#x2265; 0.7.
