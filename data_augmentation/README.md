@@ -3,7 +3,7 @@ First, `cd ./data_augmentation/scripts`.
 ## 1. Processing genome sequences from selected organisms
 First, run `python filter_non_enzymes_1.py` to remove non-enzymes and possible enzymes involving macromolecules like
 proteins, nucleic acids as substrates. This would produce 7 `*_filtered_by_annotation.fasta` files and 
-7 `*_filtered_with_annotations.csv` files. The fasta files are sequences contributed by each organism and the CSV files
+7 `*_filtered_with_annotations.csv` files under `../data/`. The fasta files are sequences contributed by each organism and the CSV files
 are the corresponding function annotations from EggNOG-mapper.
 
 Then, we remove possible negative sequences using BLAST with the genome sequences as query and our negative sequences as target.
@@ -38,6 +38,8 @@ in the `data/BA_transformers/` folder. We have a [web server](http://pkumdl.cn:8
 running the Cavity program and can exactly reproduce all pockets from the structure files.
 The Cavity program can be provided upon reasonable request. 
 ## 4. Filter out the query pockets from all pockets extracted from protein structures of the 7 selected organisms
+Run `cd scripts`.
+
 Run `python filter_pockets.py -o <organism>` and `python filter_pockets.py -o <organism> -r`.
 This would extract query pockets with volumes of 1000-5500 &#x00C5;^3 and pocket indexes &#x2265; 0.7.
 Pockets are converted to PocketMatch acceptable format. 
@@ -93,6 +95,8 @@ Linux systems. If this happens, you can use the similarity calculation results [
 to continue. The file downloaded was
 an archive of the `results` folder as mentioned above after the correct calculations.
 ## 6. Analyze pocket similarity and collect augmentation data
+Run `cd ../scripts`.
+
 Run `python process_pocketmatch_outputs.py`.
 This will produce the augmentation samples as `substrate_pocket_sim_aug_v3.fasta` at `../data/`.
 This will also merge the augmentation samples and the primary positive samples, saving them at

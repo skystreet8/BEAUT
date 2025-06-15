@@ -36,6 +36,7 @@ sequence identities of the 469 primary positive sequences. Place your DIAMOND ex
 `./diamond blastp -q ../data/positive_seqs_v3.fasta -d ../data/pos_seqs_v3 -o ../data/pos_seqs_v3_self_blast.tsv 
 --ultra-sensitive -k 0`
 
+For the arguments used in DIAMOND calculations, please refer to [the GitHub Wiki of DIAMOND](https://github.com/bbuchfink/diamond/wiki).
 Then run `python select_unique_seqs.py -f pos_seqs_v3`. This first processes the 469 primary positive sequences
 (`../data/positive_seqs_v3.fasta`) and produces 151 non-redundant primary positive sequences with maximum pairwise
 identity &#60; 90% (`../data/positive_seqs_v3_unique.fasta`). To reproduce our results, use the `positive_seqs_v3_unique.fasta`
@@ -43,7 +44,7 @@ file provided in our Zenodo archive.
 
 Then, please follow the data augmentation workflow described in  `../data_augmentation/README.md`. After finishing
 data augmentation, copy the `positive_seqs_v3_substrate_pocket_sim_aug_v3.fasta` from `../data_augmentation/data/` 
-to `../data/`.
+to `../data/`. After that, change your working directory back to `BEAUT/scripts`.
 
 After calculating pairwise sequence identities of these augmented positive sequences with DIAMOND, 
 
