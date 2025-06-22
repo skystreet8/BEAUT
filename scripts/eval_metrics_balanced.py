@@ -40,7 +40,7 @@ def predict(model, test_dataloader, threshold=0.5):
 
 if __name__ == '__main__':
     threshold = 0.5
-    auprs = []
+    auprcs = []
     f1_scores = []
     mccs = []
     precs = []
@@ -62,7 +62,7 @@ if __name__ == '__main__':
         pos_probs = [t[1] for t in test_probs]
         precisions, recalls, _ = precision_recall_curve(test_labels, pos_probs)
         aupr = round(auc(recalls, precisions), 4)
-        auprs.append(aupr)
+        auprcs.append(aupr)
         test_predictions = np.array(test_predictions)
         test_labels = np.array(test_labels)
         rec = round(recall_score(test_labels, test_predictions), 4)
@@ -74,15 +74,15 @@ if __name__ == '__main__':
         mcc = round(matthews_corrcoef(test_labels, test_predictions), 4)
         mccs.append(mcc)
     folds.append('Average')
-    auprs.append(round(np.mean(auprs), 4))
+    auprcs.append(round(np.mean(auprcs), 4))
     recs.append(round(np.mean(recs), 4))
     precs.append(round(np.mean(precs), 4))
     f1_scores.append(round(np.mean(f1_scores), 4))
     mccs.append(round(np.mean(mccs), 4))
-    best_model_idx = np.argmax(auprs) + 1
+    best_model_idx = np.argmax(auprcs) + 1
     print(f'Best model: {best_model_idx}')
     shutil.copy(f'../models/BEAUT_aug_fold_{best_model_idx}.pth', '../models/BEAUT_aug.pth')
     df = pd.DataFrame(data=None)
-    df = df.assign(fold=folds, AUPR=auprs, Recall=recs, Precision=precs, F1_score=f1_scores,
+    df = df.assign(fold=folds, AUPRC=auprcs, Recall=recs, Precision=precs, F1_score=f1_scores,
                    MCC=mccs)
     df.to_csv('../data/BEAUT_aug_eval_metrics_balanced.csv', index=False)
