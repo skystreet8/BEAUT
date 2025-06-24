@@ -16,7 +16,10 @@ If you have different versions of CUDA, please find an appropriate version of Py
 We used DIAMOND version 2.1.9.163. Please download this version of DIAMOND [here](https://github.com/bbuchfink/diamond/releases/tag/v2.1.9).
 
 If this is your first time installing the nltk package, run the `download_nltk_resources.py` script to get necessary
-resources for the package. 
+resources for the package. If the resources are unreachable due to network issues, you can unzip the `nltk_data.tar.gz` file and
+place the folder under your home directory:
+
+`cp -r <your directory>/nltk_data/ ~/`
 ## Data preparation
 The necessary data for running and reproducing BEAUT are deposited at Zenodo.
 Download these files from [here](https://zenodo.org/records/15388149?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjkzN2M0NDkwLTQ3ZGQtNGViZC1iMzk2LThiMzM3N2FjZDBiMyIsImRhdGEiOnt9LCJyYW5kb20iOiIyNTUyODAwYTE4MzQxMWU0MmFlOTZhOWU5NWQwZDYxZCJ9.iSU6brHM0Tw2YWGOQlcr-zrZxR9UgDdV6ZdmdntvOSZ-2c8t93b3gOpUyS1JRmaSS4YusV0c88gSDH_dYrQy-w).
