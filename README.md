@@ -1,6 +1,6 @@
 # BEAUT
 Notice: The code is presented only for reproducibility purposes. To use BEAUT on your own sequences or 
-query the Human Gut microbe Bile acid Metabolic Enzyme data set predicted by BEAUT,
+query the Human Generalized Microbial Bile acid Metabolic Enzyme data set predicted by BEAUT,
 you can use our [web server](https://beaut.bjmu.edu.cn).
 
 Code for "Identification of gut microbial bile acid metabolic enzymes
