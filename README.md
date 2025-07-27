@@ -3,8 +3,8 @@ Notice: The code is presented only for reproducibility purposes. To use BEAUT on
 query the Human Gut microbe Bile acid Metabolic Enzyme data set predicted by BEAUT,
 you can use our [web server](https://beaut.bjmu.edu.cn).
 
-Code for "Identification of novel gut microbial bile acid metabolic enzymes
-via a large-scale Al-assisted pipeline".
+Code for "Identification of gut microbial bile acid metabolic enzymes
+via an Al-assisted pipeline".
 
 ## Environment configuration
 Run `conda env create -f environment.yml` to create the environment needed for running the code.
