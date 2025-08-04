@@ -22,7 +22,7 @@ place the folder under your home directory:
 `cp -r <your directory>/nltk_data/ ~/`
 ## Data preparation
 The necessary data for running and reproducing BEAUT are deposited at Zenodo.
-Download these files from [here](https://zenodo.org/records/15388149?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjkzN2M0NDkwLTQ3ZGQtNGViZC1iMzk2LThiMzM3N2FjZDBiMyIsImRhdGEiOnt9LCJyYW5kb20iOiIyNTUyODAwYTE4MzQxMWU0MmFlOTZhOWU5NWQwZDYxZCJ9.iSU6brHM0Tw2YWGOQlcr-zrZxR9UgDdV6ZdmdntvOSZ-2c8t93b3gOpUyS1JRmaSS4YusV0c88gSDH_dYrQy-w).
+Download these files from [here](https://zenodo.org/records/15388149).
 After decompressing the file, place the `data/` folder under the root directory `BEAUT/` and place the `data_augmentation_data/` folder under `BEAUT/data_augmentation/`.
 Then, rename the `BEAUT/data_augmentation/data_augmentation_data/` directory to `BEAUT/data_augmentation/data/` which is consistent with the code.
 
