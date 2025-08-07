@@ -169,3 +169,5 @@ the EC constitution for each cluster and assign cluster indexes to sequences.
 The network file is precomputed and provided at `../data/PRJNA28331_aug/PRJNA28331_aug_alnscore60_ssn_clusters_full/PRJNA28331_aug_alnscore60_full_ssn.xgmml.tar.gz`.
 Please unzip the file before running `process_xgmml_graph.py`. 
 This step requires at least 64 GB memory and can take a long time to run.
+## To cite this
+Ding, Y.; Luo, X.; Guo, J.; Xing, B.; Lin, H.; Ma, H.; Li, M.; Ye, C.; Yan, S.; Lin, K.; Zhang, J.; Wang, Y.; Zhuo, Y.; Nie, Q.; Yang, D.; Zhang Z.; Pang Y.; Wang, K.; Pang, Y.; Ma, M.; Lai, L.; Jiang, C. Identification of gut microbial bile acid metabolic enzymes via an Al-assisted pipeline. DOI: [10.1016/j.cell.2025.07.017](https://doi.org/10.1016/j.cell.2025.07.017)
